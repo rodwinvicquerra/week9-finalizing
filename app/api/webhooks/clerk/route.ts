@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { headers } from "next/headers"
 import { Webhook } from "svix"
-import { authLogger } from '@/lib/security/auth-logger-db'
 
 export const dynamic = 'force-dynamic'
 
@@ -60,61 +59,9 @@ export async function POST(req: NextRequest) {
 
   // Get the event type
   const eventType = evt.type
-  const ipAddress = req.headers.get('x-forwarded-for') || 'unknown'
-  const userAgent = req.headers.get('user-agent') || 'unknown'
 
   console.log(`Webhook received: ${eventType}`)
 
-  // Handle different event types
-  try {
-    switch (eventType) {
-      case 'session.created':
-        await authLogger.log({
-          userId: evt.data.user_id,
-          userEmail: null,
-          userName: null,
-          event: 'session_created',
-          ipAddress,
-          userAgent,
-          metadata: { sessionId: evt.data.id }
-        })
-        break
-
-      case 'session.ended':
-      case 'session.removed':
-      case 'session.revoked':
-        await authLogger.log({
-          userId: evt.data.user_id,
-          userEmail: null,
-          userName: null,
-          event: 'session_revoked',
-          ipAddress,
-          userAgent,
-          metadata: { sessionId: evt.data.id }
-        })
-        break
-
-      case 'user.created':
-        await authLogger.log({
-          userId: evt.data.id,
-          userEmail: evt.data.email_addresses?.[0]?.email_address || null,
-          userName: `${evt.data.first_name || ''} ${evt.data.last_name || ''}`.trim() || null,
-          event: 'sign_up',
-          ipAddress,
-          userAgent,
-        })
-        break
-
-      default:
-        console.log(`Unhandled event type: ${eventType}`)
-    }
-
-    return NextResponse.json({ success: true })
-  } catch (error) {
-    console.error('Error processing webhook:', error)
-    return NextResponse.json(
-      { error: 'Error processing webhook' },
-      { status: 500 }
-    )
-  }
+  // Clerk handles all auth tracking
+  return NextResponse.json({ success: true })
 }

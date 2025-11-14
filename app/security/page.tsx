@@ -49,12 +49,6 @@ export default async function SecurityPage() {
               Contact & Chat
             </Link>
           </Button>
-          <Button asChild className="gap-2 bg-primary">
-            <Link href="/admin/logs">
-              <Activity className="h-4 w-4" />
-              View Auth Logs
-            </Link>
-          </Button>
         </div>
 
         {/* Header */}
