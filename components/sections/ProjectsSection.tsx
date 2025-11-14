@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ExternalLink, Github, Star, Folder, TrendingUp, BookOpen, ChevronLeft, ChevronRight } from "lucide-react"
+import { FadeIn } from "@/components/animations"
 
 const projects = [
   {
@@ -134,7 +135,7 @@ export function ProjectsSection() {
       <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-primary/5 rounded-full mix-blend-multiply filter blur-3xl opacity-70" />
       
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-16">
+        <FadeIn direction="up" className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-sm font-medium text-accent mb-4">
             <Folder className="h-4 w-4" />
             My Work
@@ -143,7 +144,7 @@ export function ProjectsSection() {
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             A showcase of my recent work and contributions
           </p>
-        </div>
+        </FadeIn>
         
         {/* Carousel Container */}
         <div className="relative">
@@ -187,20 +188,29 @@ export function ProjectsSection() {
               {visibleProjects.map((project, idx) => (
                 <Card
                   key={currentIndex * itemsPerPage + idx}
-                  className="group relative overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-2 hover:border-primary/50 bg-card"
+                  className="group relative overflow-hidden transition-all duration-300 hover:shadow-xl border-2 hover:border-primary/30 bg-card"
+                  style={{
+                    transform: 'translateY(0)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-8px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
                 >
-                  {/* Gradient overlay on hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                  {/* Subtle gradient overlay on hover */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
                   
                   {/* Content */}
                   <div className="relative p-6 flex flex-col h-full">
                     {/* Header */}
                     <div className="flex items-start justify-between mb-4">
-                      <div className={`p-3 rounded-xl bg-gradient-to-br ${project.color} opacity-10 group-hover:opacity-20 transition-opacity`}>
+                      <div className={`p-3 rounded-xl bg-gradient-to-br ${project.color} opacity-10 group-hover:opacity-15 group-hover:scale-110 transition-all duration-300`}>
                         <Folder className="h-6 w-6 text-primary" />
                       </div>
                       {project.featured && (
-                        <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                        <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 group-hover:bg-primary/15 transition-colors duration-200">
                           <Star className="h-3 w-3 text-primary fill-primary" />
                           <span className="text-xs font-semibold text-primary">Featured</span>
                         </div>
@@ -209,7 +219,7 @@ export function ProjectsSection() {
                     
                     {/* Title & Description */}
                     <div className="flex-1 mb-4">
-                      <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                      <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors duration-200">
                         {project.title}
                       </h3>
                       <p className="text-muted-foreground leading-relaxed text-sm">
@@ -223,7 +233,7 @@ export function ProjectsSection() {
                         <Badge 
                           key={i} 
                           variant="secondary" 
-                          className="text-xs font-medium hover:bg-primary/10 hover:text-primary transition-colors"
+                          className="text-xs font-medium hover:bg-primary/10 hover:text-primary hover:scale-105 transition-all duration-200"
                         >
                           {tech}
                         </Badge>
@@ -262,7 +272,7 @@ export function ProjectsSection() {
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="flex-1 gap-2 group-hover:border-primary group-hover:text-primary transition-all" 
+                        className="flex-1 gap-2 group-hover:border-primary/50 transition-all duration-200 hover:scale-105" 
                         asChild
                       >
                         <a href={project.github} target="_blank" rel="noopener noreferrer">
@@ -272,7 +282,7 @@ export function ProjectsSection() {
                       </Button>
                       <Button 
                         size="sm" 
-                        className="flex-1 gap-2 bg-primary hover:bg-primary/90 shadow-sm hover:shadow-lg transition-all" 
+                        className="flex-1 gap-2 bg-primary hover:bg-primary/90 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200" 
                         asChild
                       >
                         <a href={project.demo} target="_blank" rel="noopener noreferrer">
@@ -284,7 +294,7 @@ export function ProjectsSection() {
                         <Button 
                           variant="secondary" 
                           size="sm" 
-                          className="gap-2" 
+                          className="gap-2 hover:scale-105 transition-all duration-200" 
                           asChild
                         >
                           <a href={project.caseStudy.lmsLink} target="_blank" rel="noopener noreferrer">

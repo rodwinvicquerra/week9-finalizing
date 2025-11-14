@@ -238,6 +238,15 @@ export function AdminDashboard() {
                   >
                     View Portfolio
                   </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start bg-transparent hover:bg-primary/10 transition-all"
+                    onClick={() => {
+                      router.push('/admin/logs');
+                    }}
+                  >
+                    View Auth Logs
+                  </Button>
                 </div>
               </div>
             </Card>

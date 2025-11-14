@@ -1,47 +1,78 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { portfolioContext } from '@/lib/portfolio-context';
 import Groq from 'groq-sdk';
+import {
+  createRateLimiter,
+  sanitizeChatMessage,
+  detectSuspiciousPatterns,
+  validateApiRequest,
+  logSuspiciousInput,
+  logApiAbuse,
+  getClientIp,
+  getSecureHeaders,
+} from '@/lib/security';
 
-// Simple rate limiting (in-memory for demo - use Redis for production)
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const limit = rateLimitMap.get(ip);
-
-  if (!limit || now > limit.resetTime) {
-    rateLimitMap.set(ip, { count: 1, resetTime: now + 60000 }); // 1 minute window
-    return true;
-  }
-
-  if (limit.count >= 10) {
-    // 10 messages per minute
-    return false;
-  }
-
-  limit.count++;
-  return true;
-}
-
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    // Get IP for rate limiting
-    const ip = req.headers.get('x-forwarded-for') || 'unknown';
+    // Validate API request
+    const validation = await validateApiRequest(req, {
+      allowedMethods: ['POST'],
+      requireContentType: true,
+    });
 
-    // Check rate limit
-    if (!checkRateLimit(ip)) {
+    if (!validation.valid) {
       return NextResponse.json(
-        { error: 'Rate limit exceeded. Please wait a minute.' },
-        { status: 429 }
+        { error: validation.error },
+        { status: 403, headers: getSecureHeaders() }
       );
     }
 
+    // Apply rate limiting
+    const rateLimiter = createRateLimiter('chat');
+    const rateLimitResult = await rateLimiter(req);
+    if (rateLimitResult) {
+      return rateLimitResult; // Returns 429 with proper headers
+    }
+
+    const ip = getClientIp(req);
     const { messages } = await req.json();
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
         { error: 'Invalid request format' },
-        { status: 400 }
+        { status: 400, headers: getSecureHeaders() }
+      );
+    }
+
+    // Sanitize and validate user messages
+    const sanitizedMessages = messages.map((msg) => {
+      if (msg.role === 'user' && msg.content) {
+        // Check for suspicious patterns
+        const suspiciousCheck = detectSuspiciousPatterns(msg.content);
+        if (suspiciousCheck.isSuspicious) {
+          logSuspiciousInput(ip, '/api/chat', suspiciousCheck.reason || 'Unknown');
+          throw new Error('Invalid message content');
+        }
+
+        // Sanitize the message
+        return {
+          ...msg,
+          content: sanitizeChatMessage(msg.content),
+        };
+      }
+      return msg;
+    });
+
+    // Check for abuse (too many tokens)
+    const totalLength = sanitizedMessages.reduce(
+      (acc, msg) => acc + (msg.content?.length || 0),
+      0
+    );
+    if (totalLength > 10000) {
+      logApiAbuse(ip, '/api/chat', 'Excessive message length');
+      return NextResponse.json(
+        { error: 'Message too long' },
+        { status: 400, headers: getSecureHeaders() }
       );
     }
 
@@ -51,7 +82,7 @@ export async function POST(req: Request) {
         role: 'system',
         content: portfolioContext,
       },
-      ...messages,
+      ...sanitizedMessages,
     ];
 
     // Check if we're on Vercel (production) or localhost  
@@ -90,18 +121,18 @@ export async function POST(req: Request) {
 
         return NextResponse.json({
           message: assistantMessage,
-        });
+        }, { headers: getSecureHeaders() });
       } catch (error: any) {
         console.error('Groq error:', error);
         return NextResponse.json(
           { error: `AI Error: ${error?.message || 'Unknown error'}` },
-          { status: 500 }
+          { status: 500, headers: getSecureHeaders() }
         );
       }
     } else {
       // Use Ollama for local development
       console.log('Using Ollama for localhost');
-      response = await fetch('http://localhost:11434/api/chat', {
+      const response = await fetch('http://localhost:11434/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +155,7 @@ export async function POST(req: Request) {
           { 
             error: 'Ollama is not running. Please start Ollama or deploy to Vercel with Groq API key.' 
           },
-          { status: response.status }
+          { status: response.status, headers: getSecureHeaders() }
         );
       }
 
@@ -134,19 +165,19 @@ export async function POST(req: Request) {
       if (!assistantMessage) {
         return NextResponse.json(
           { error: 'No response from AI' },
-          { status: 500 }
+          { status: 500, headers: getSecureHeaders() }
         );
       }
 
       return NextResponse.json({
         message: assistantMessage,
-      });
+      }, { headers: getSecureHeaders() });
     }
   } catch (error) {
     console.error('Chat API error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 }
+      { status: 500, headers: getSecureHeaders() }
     );
   }
 }

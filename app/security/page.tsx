@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Shield, Lock, Activity, CheckCircle2, AlertTriangle, Download, ExternalLink, TrendingUp, Users, Zap, FileText } from "lucide-react"
+import { Shield, Lock, Activity, CheckCircle2, AlertTriangle, Download, ExternalLink, TrendingUp, Users, Zap, FileText, ArrowLeft, Home, MessageSquare } from "lucide-react"
 import Link from "next/link"
 import type { Metadata } from "next"
 import { currentUser } from "@clerk/nextjs/server"
@@ -35,6 +35,28 @@ export default async function SecurityPage() {
   return (
     <div className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        {/* Navigation Buttons */}
+        <div className="flex flex-wrap gap-3 mb-8">
+          <Button variant="outline" asChild className="gap-2">
+            <Link href="/portfolio">
+              <Home className="h-4 w-4" />
+              Back to Portfolio
+            </Link>
+          </Button>
+          <Button variant="outline" asChild className="gap-2">
+            <Link href="/portfolio#contact">
+              <MessageSquare className="h-4 w-4" />
+              Contact & Chat
+            </Link>
+          </Button>
+          <Button asChild className="gap-2 bg-primary">
+            <Link href="/admin/logs">
+              <Activity className="h-4 w-4" />
+              View Auth Logs
+            </Link>
+          </Button>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-sm font-medium text-primary mb-4">

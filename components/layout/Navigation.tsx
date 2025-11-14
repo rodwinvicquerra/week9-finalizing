@@ -14,12 +14,14 @@ const navItems = [
   { name: "Education", href: "#education" },
   { name: "Projects", href: "#projects" },
   { name: "Security", href: "/security", isExternal: true, adminOnly: true },
+  { name: "Auth Logs", href: "/admin/logs", isExternal: true, adminOnly: true },
   { name: "Contact", href: "#contact" },
 ]
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState("")
   const { isSignedIn } = useAuth()
   const { user } = useUser()
 
@@ -34,10 +36,28 @@ export function Navigation() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
+      
+      // Detect active section
+      const sections = visibleNavItems
+        .filter(item => !item.isExternal)
+        .map(item => item.href.replace('#', ''))
+      
+      for (const sectionId of sections) {
+        const element = document.getElementById(sectionId)
+        if (element) {
+          const rect = element.getBoundingClientRect()
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            setActiveSection(`#${sectionId}`)
+            break
+          }
+        }
+      }
     }
+    
     window.addEventListener("scroll", handleScroll)
+    handleScroll() // Check on mount
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [visibleNavItems])
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href)
@@ -68,13 +88,25 @@ export function Navigation() {
                   <a 
                     key={item.name} 
                     href={item.href}
-                    className="inline-flex items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors px-4 h-9 cursor-pointer"
+                    className="inline-flex items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-200 px-4 h-9 cursor-pointer"
                   >
                     {item.name}
                   </a>
                 ) : (
-                  <Button key={item.name} variant="ghost" onClick={() => scrollToSection(item.href)} className="text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors px-4">
+                  <Button 
+                    key={item.name} 
+                    variant="ghost" 
+                    onClick={() => scrollToSection(item.href)} 
+                    className={`text-sm font-medium transition-all duration-200 px-4 relative ${
+                      activeSection === item.href
+                        ? 'text-foreground bg-muted/70'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                    }`}
+                  >
                     {item.name}
+                    {activeSection === item.href && (
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />
+                    )}
                   </Button>
                 )
               )}

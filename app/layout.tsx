@@ -8,6 +8,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { ChatButton } from "@/components/chat/ChatButton"
+import { AuthEventTracker } from "@/components/common"
 import { Suspense } from "react"
 
 export const metadata: Metadata = {
@@ -38,6 +39,7 @@ export default function RootLayout({
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
         {publishableKey ? (
           <ClerkProvider publishableKey={publishableKey}>
+            <AuthEventTracker />
             <Suspense fallback={null}>
               <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
                 {children}
