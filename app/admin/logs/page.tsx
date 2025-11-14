@@ -22,7 +22,6 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth, useUser } from "@clerk/nextjs"
-import { AccessDenied } from "@/components/common"
 import type { AuthLog } from "@/lib/security/auth-logger"
 
 interface LogsResponse {
@@ -89,18 +88,33 @@ export default function AdminLogsPage() {
     }
   }
 
+  // Redirect if not signed in or not admin
+  useEffect(() => {
+    if (isSignedIn !== undefined && !isSignedIn) {
+      window.location.href = '/sign-in'
+    } else if (user && !isAdmin) {
+      window.location.href = '/portfolio'
+    }
+  }, [isSignedIn, user, isAdmin])
+
   if (!isSignedIn) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p>Loading authentication...</p>
+          <p>Redirecting to sign in...</p>
         </div>
       </div>
     )
   }
 
   if (!isAdmin) {
-    return <AccessDenied />
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p>Access denied. Redirecting...</p>
+        </div>
+      </div>
+    )
   }
 
   const filteredLogs = logs.filter(log => {
