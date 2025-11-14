@@ -14,6 +14,7 @@ const isPublicRoute = createRouteMatcher([
   "/mcp-security", // Make security docs public
   "/security(.*)", // Security pages check role internally
   "/mcp-integration(.*)", // MCP pages check role internally
+  "/admin/logs(.*)", // Temporarily allow - page will check role
 ]);
 
 const isAdminRoute = createRouteMatcher([

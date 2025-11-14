@@ -48,8 +48,19 @@ export default function AdminLogsPage() {
 
   // Check if user has admin role
   const publicMetadata = user?.publicMetadata as { role?: string } | undefined
-  const role = (publicMetadata?.role || 'viewer').toLowerCase()
-  const isAdmin = role === 'admin'
+  const role = publicMetadata?.role
+  const isAdmin = role?.toLowerCase() === 'admin'
+
+  // Debug logging
+  useEffect(() => {
+    console.log('Admin Logs Page - User Check:', {
+      isSignedIn,
+      userId: user?.id,
+      publicMetadata,
+      role,
+      isAdmin
+    })
+  }, [isSignedIn, user, publicMetadata, role, isAdmin])
 
   useEffect(() => {
     if (isSignedIn && isAdmin) {
@@ -78,7 +89,17 @@ export default function AdminLogsPage() {
     }
   }
 
-  if (!isSignedIn || !isAdmin) {
+  if (!isSignedIn) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p>Loading authentication...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAdmin) {
     return <AccessDenied />
   }
 
