@@ -14,6 +14,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { type, userId, email, userName, ipAddress: providedIp, userAgent: providedUserAgent } = body
 
+    console.log('🔐 Auth track request:', { type, userId, email })
+
     // Use provided values or extract from request
     const ipAddress = providedIp || getClientIp(req)
     const userAgent = providedUserAgent || req.headers.get('user-agent') || 'unknown'
@@ -28,14 +30,16 @@ export async function POST(req: NextRequest) {
       userAgent,
     })
 
+    console.log('✅ Event logged successfully')
+
     return NextResponse.json(
       { success: true, message: 'Event logged to database' },
       { headers: getSecureHeaders() }
     )
   } catch (error) {
-    console.error('Error tracking auth event:', error)
+    console.error('❌ Error tracking auth event:', error)
     return NextResponse.json(
-      { error: 'Failed to track event' },
+      { error: 'Failed to track event', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500, headers: getSecureHeaders() }
     )
   }
