@@ -1,28 +1,31 @@
-import DOMPurify from 'dompurify';
-import { JSDOM } from 'jsdom';
-
-// Initialize DOMPurify for server-side use
-const window = new JSDOM('').window;
-const purify = DOMPurify(window as any);
-
 /**
  * Sanitize HTML content to prevent XSS attacks
+ * Simple sanitization without external dependencies for Vercel compatibility
  */
 export function sanitizeHtml(dirty: string): string {
-  return purify.sanitize(dirty, {
-    ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
-    ALLOWED_ATTR: ['href', 'target', 'rel'],
+  // Remove script tags and their content
+  let cleaned = dirty.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+  
+  // Remove event handlers
+  cleaned = cleaned.replace(/on\w+\s*=\s*["'][^"']*["']/gi, '');
+  
+  // Allow only safe tags
+  const allowedTags = ['b', 'i', 'em', 'strong', 'a', 'p', 'br'];
+  const tagRegex = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
+  
+  cleaned = cleaned.replace(tagRegex, (match, tag) => {
+    return allowedTags.includes(tag.toLowerCase()) ? match : '';
   });
+  
+  return cleaned;
 }
 
 /**
  * Sanitize plain text - removes all HTML tags
  */
 export function sanitizeText(dirty: string): string {
-  return purify.sanitize(dirty, {
-    ALLOWED_TAGS: [],
-    ALLOWED_ATTR: [],
-  });
+  // Remove all HTML tags
+  return dirty.replace(/<[^>]*>/g, '').trim();
 }
 
 /**
