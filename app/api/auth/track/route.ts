@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@clerk/nextjs/server"
-import { authLogger } from "@/lib/security/auth-logger"
+import { authLogger } from "@/lib/security/auth-logger-db"
 import { getClientIp, getSecureHeaders } from "@/lib/security"
 
 export const dynamic = 'force-dynamic'
@@ -18,8 +18,8 @@ export async function POST(req: NextRequest) {
     const ipAddress = providedIp || getClientIp(req)
     const userAgent = providedUserAgent || req.headers.get('user-agent') || 'unknown'
 
-    // Log the event
-    authLogger.log({
+    // Log the event to database
+    await authLogger.log({
       userId: userId || 'unknown',
       userEmail: email || 'unknown',
       userName: userName || 'Unknown User',
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json(
-      { success: true },
+      { success: true, message: 'Event logged to database' },
       { headers: getSecureHeaders() }
     )
   } catch (error) {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { headers } from "next/headers"
 import { Webhook } from "svix"
-import { authLogger } from "@/lib/security/auth-logger"
+import { authLogger } from '@/lib/security/auth-logger-db'
 
 export const dynamic = 'force-dynamic'
 
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
   try {
     switch (eventType) {
       case 'session.created':
-        authLogger.log({
+        await authLogger.log({
           userId: evt.data.user_id,
           userEmail: null,
           userName: null,
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
       case 'session.ended':
       case 'session.removed':
       case 'session.revoked':
-        authLogger.log({
+        await authLogger.log({
           userId: evt.data.user_id,
           userEmail: null,
           userName: null,
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
         break
 
       case 'user.created':
-        authLogger.log({
+        await authLogger.log({
           userId: evt.data.id,
           userEmail: evt.data.email_addresses?.[0]?.email_address || null,
           userName: `${evt.data.first_name || ''} ${evt.data.last_name || ''}`.trim() || null,

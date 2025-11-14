@@ -1,6 +1,6 @@
 import { auth, clerkClient } from "@clerk/nextjs/server"
 import { NextRequest, NextResponse } from "next/server"
-import { authLogger } from "@/lib/security/auth-logger"
+import { authLogger } from "@/lib/security/auth-logger-db"
 import { getSecureHeaders } from "@/lib/security"
 
 export const dynamic = 'force-dynamic'
@@ -41,15 +41,17 @@ export async function GET(request: NextRequest) {
     let logs
 
     if (targetUserId) {
-      logs = authLogger.getLogsByUser(targetUserId, limit)
+      logs = await authLogger.getLogsByUser(targetUserId, limit)
     } else if (eventType) {
-      logs = authLogger.getLogsByEvent(eventType, limit)
+      logs = await authLogger.getLogsByEvent(eventType, limit)
     } else {
-      logs = authLogger.getAllLogs(limit)
+      logs = await authLogger.getAllLogs(limit)
     }
 
     // Get statistics
-    const stats = authLogger.getStats()
+    const stats = await authLogger.getStats()
+
+    console.log('📊 Fetching auth logs. Total in this instance:', logs.length, 'Stats:', stats.totalLogs)
 
     return NextResponse.json({
       logs,
