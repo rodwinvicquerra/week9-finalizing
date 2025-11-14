@@ -40,10 +40,19 @@ export default clerkMiddleware(async (auth, req) => {
 
     // Check if user has admin role in publicMetadata (case-insensitive)
     const publicMetadata = sessionClaims?.publicMetadata as { role?: string } | undefined;
-    const role = (publicMetadata?.role || 'viewer').toLowerCase();
+    const role = publicMetadata?.role;
     
-    if (role !== "admin") {
+    // Log for debugging (check Vercel logs)
+    console.log('Admin route check:', { 
+      path: req.nextUrl.pathname, 
+      role, 
+      publicMetadata,
+      userId: userId.substring(0, 10) + '...'
+    });
+    
+    if (!role || role.toLowerCase() !== "admin") {
       // Redirect non-admin users to portfolio
+      console.log('Access denied - redirecting to portfolio');
       return NextResponse.redirect(new URL("/portfolio", req.url));
     }
   }
