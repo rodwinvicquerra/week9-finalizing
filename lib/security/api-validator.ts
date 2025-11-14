@@ -212,13 +212,22 @@ export function validateEnvironment(): {
 }
 
 /**
- * Secure header configuration
+ * Secure header configuration with CSP reporting
  */
 export function getSecureHeaders(): Record<string, string> {
+  const reportUri = process.env.NEXT_PUBLIC_APP_URL 
+    ? `${process.env.NEXT_PUBLIC_APP_URL}/api/security/csp-report`
+    : '/api/security/csp-report';
+
   return {
     'X-Content-Type-Options': 'nosniff',
     'X-Frame-Options': 'DENY',
     'X-XSS-Protection': '1; mode=block',
     'Referrer-Policy': 'strict-origin-when-cross-origin',
+    'Report-To': JSON.stringify({
+      group: 'csp-endpoint',
+      max_age: 10886400,
+      endpoints: [{ url: reportUri }],
+    }),
   };
 }

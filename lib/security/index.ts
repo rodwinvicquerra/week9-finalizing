@@ -30,15 +30,25 @@ export {
   type SecurityEventType,
 } from './logger';
 
-// Authentication Logging
+// Intrusion Detection System
 export {
-  authLogger,
-  logSignIn,
-  logSignOut,
-  logSignUp,
-  logFailedAuth as logAuthFailure,
-  type AuthLog,
-} from './auth-logger';
+  ids,
+  type SecurityEvent as IDSSecurityEvent,
+  type ThreatScore,
+} from './ids';
+
+// CSP Violation Reporter
+export {
+  cspReporter,
+  type CSPViolation,
+  type CSPStats,
+} from './csp-reporter';
+
+// Security Notifications
+export {
+  securityNotifications,
+  type NotificationConfig,
+} from './notifications';
 
 // API Validation
 export {

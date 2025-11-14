@@ -1,6 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { ids } from '@/lib/security/ids';
 
 // NOTE: Arcjet removed to reduce middleware size for Vercel Free tier (1MB limit)
 // For production deployment with Arcjet, upgrade to Vercel Pro
@@ -11,6 +12,7 @@ const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
   "/sign-up(.*)", 
   "/api/public(.*)",
+  "/api/security/csp-report", // Allow CSP reports
   "/mcp-security", // Make security docs public
   "/security(.*)", // Security pages check role internally
   "/mcp-integration(.*)", // MCP pages check role internally
@@ -20,9 +22,37 @@ const isPublicRoute = createRouteMatcher([
 const isAdminRoute = createRouteMatcher([
   "/admin(.*)",
   "/api/admin(.*)",
+  "/api/security/dashboard",
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
+  const ipAddress = req.headers.get('x-forwarded-for') || 
+                    req.headers.get('x-real-ip') || 
+                    'unknown';
+
+  // Check if IP is blocked by IDS
+  if (ids.isBlocked(ipAddress)) {
+    console.warn('🚫 Blocked request from:', ipAddress);
+    return NextResponse.json(
+      { error: 'Access denied - Suspicious activity detected' },
+      { status: 403 }
+    );
+  }
+
+  // Track request for rate limiting (skip for static assets)
+  if (!req.nextUrl.pathname.startsWith('/_next') && 
+      !req.nextUrl.pathname.startsWith('/static')) {
+    const { allowed, threatScore } = ids.trackRequest(ipAddress);
+    
+    if (!allowed) {
+      console.warn('⚠️ Rate limit exceeded:', ipAddress, 'Score:', threatScore.score);
+      return NextResponse.json(
+        { error: 'Rate limit exceeded' },
+        { status: 429 }
+      );
+    }
+  }
+
   // Allow public routes
   if (isPublicRoute(req)) {
     return NextResponse.next();

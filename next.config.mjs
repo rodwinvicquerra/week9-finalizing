@@ -26,7 +26,7 @@ const nextConfig = {
       {
         source: '/:path*',
         headers: [
-          // Content Security Policy - Whitelist Clerk and trusted domains
+          // Content Security Policy - Whitelist Clerk and trusted domains with CSP reporting
           {
             key: 'Content-Security-Policy',
             value: [
@@ -41,7 +41,8 @@ const nextConfig = {
               "base-uri 'self'",
               "form-action 'self'",
               "frame-ancestors 'none'",
-              "upgrade-insecure-requests"
+              "upgrade-insecure-requests",
+              "report-uri /api/security/csp-report"
             ].join('; ')
           },
           // Prevent clickjacking
