@@ -16,16 +16,18 @@ export function AuthEventTracker() {
     if (isSignedIn && userId && user) {
       const logSignInEvent = async () => {
         try {
-          await fetch('/api/auth/track', {
+          console.log('[AuthEventTracker] Logging sign-in event for:', user.primaryEmailAddress?.emailAddress)
+          const response = await fetch('/api/auth/track', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              event: 'sign_in',
+              type: 'sign_in',
               userId: userId,
-              userEmail: user.primaryEmailAddress?.emailAddress || null,
+              email: user.primaryEmailAddress?.emailAddress || null,
               userName: user.fullName || null,
             }),
           })
+          console.log('[AuthEventTracker] Sign-in logged:', response.ok)
         } catch (error) {
           console.error('Failed to log sign-in event:', error)
         }
@@ -36,13 +38,14 @@ export function AuthEventTracker() {
       // Track sign-out on component unmount or page unload
       const logSignOutEvent = async () => {
         try {
+          console.log('[AuthEventTracker] Logging sign-out event')
           await fetch('/api/auth/track', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              event: 'sign_out',
+              type: 'sign_out',
               userId: userId,
-              userEmail: user.primaryEmailAddress?.emailAddress || null,
+              email: user.primaryEmailAddress?.emailAddress || null,
               userName: user.fullName || null,
             }),
           })

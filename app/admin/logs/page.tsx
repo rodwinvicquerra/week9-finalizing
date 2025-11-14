@@ -88,6 +88,34 @@ export default function AdminLogsPage() {
     }
   }
 
+  const generateDemoLogs = async () => {
+    try {
+      setLoading(true)
+      const demoEvents = [
+        { type: 'sign_in', userId: 'demo_user1', email: 'demo@example.com', userName: 'Demo User' },
+        { type: 'sign_out', userId: 'demo_user1', email: 'demo@example.com', userName: 'Demo User' },
+        { type: 'sign_up', userId: 'demo_user2', email: 'newuser@example.com', userName: 'New User' },
+        { type: 'session_created', userId: 'demo_user3', email: 'admin@example.com', userName: 'Admin' },
+        { type: 'failed_auth', userId: 'unknown', email: 'hacker@test.com', userName: 'Unknown' },
+      ]
+
+      for (const event of demoEvents) {
+        await fetch('/api/auth/track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(event)
+        })
+      }
+
+      // Refresh logs after generating
+      setTimeout(() => fetchLogs(), 500)
+    } catch (error) {
+      console.error('Failed to generate demo logs:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   // Redirect if not signed in or not admin
   useEffect(() => {
     if (isSignedIn !== undefined && !isSignedIn) {
@@ -271,6 +299,10 @@ export default function AdminLogsPage() {
                 <option value="sign_up">Sign Up</option>
                 <option value="failed_auth">Failed Auth</option>
               </select>
+              <Button onClick={generateDemoLogs} variant="default" disabled={loading} className="gap-2">
+                <Activity className="h-4 w-4" />
+                Generate Demo Logs
+              </Button>
               <Button onClick={fetchLogs} variant="outline" size="icon" disabled={loading}>
                 <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
               </Button>
