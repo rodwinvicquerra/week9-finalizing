@@ -14,7 +14,6 @@ const navItems = [
   { name: "Education", href: "#education" },
   { name: "Projects", href: "#projects" },
   { name: "Security", href: "/security", isExternal: true, adminOnly: true },
-  { name: "Auth Logs", href: "/admin/logs", isExternal: true, adminOnly: true },
   { name: "Contact", href: "#contact" },
 ]
 
