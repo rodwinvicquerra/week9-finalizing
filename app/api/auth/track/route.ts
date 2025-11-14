@@ -8,7 +8,6 @@ export const dynamic = 'force-dynamic'
 /**
  * POST /api/auth/track
  * Track authentication events from client-side
- * Updated: 2025-11-15
  */
 export async function POST(req: NextRequest) {
   try {
