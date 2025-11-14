@@ -9,7 +9,11 @@ export const dynamic = 'force-dynamic'
  * POST /api/auth/track
  * Track authentication events from client-side
  */
-export async function POST(req: NextRequest) {
+import { NextRequest, NextResponse } from 'next/server'
+import { authLogger } from '@/lib/security/auth-logger-db'
+
+// Force redeploy to pick up updated POSTGRES_URL env var
+export async function POST(request: NextRequest) {
   try {
     const body = await req.json()
     const { type, userId, email, userName, ipAddress: providedIp, userAgent: providedUserAgent } = body

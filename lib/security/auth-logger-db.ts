@@ -23,7 +23,14 @@ class AuthLogger {
    */
   async log(event: Omit<AuthLog, 'id' | 'timestamp'>): Promise<void> {
     try {
-      await sql`
+      console.log('🔵 [AUTH LOGGER] Attempting to insert log:', {
+        userId: event.userId,
+        email: event.userEmail,
+        event: event.event,
+        POSTGRES_URL: process.env.POSTGRES_URL ? 'SET' : 'NOT SET'
+      })
+
+      const result = await sql`
         INSERT INTO auth_logs (user_id, user_email, user_name, event, ip_address, user_agent, metadata)
         VALUES (
           ${event.userId},
@@ -34,7 +41,10 @@ class AuthLogger {
           ${event.userAgent},
           ${event.metadata ? JSON.stringify(event.metadata) : null}::jsonb
         )
+        RETURNING id
       `
+
+      console.log('✅ [AUTH LOG SUCCESS] Inserted with ID:', result.rows[0]?.id)
 
       const logLevel = event.event === 'failed_auth' ? 'warn' : 'log'
       console[logLevel]('[AUTH LOG]', {
@@ -44,7 +54,11 @@ class AuthLogger {
         timestamp: new Date().toISOString(),
       })
     } catch (error) {
-      console.error('[AUTH LOG ERROR]', error)
+      console.error('❌ [AUTH LOG ERROR]', error)
+      console.error('❌ Error details:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined
+      })
       // Don't throw - we don't want logging failures to break the app
     }
   }
