@@ -85,22 +85,22 @@ Rodwin Vicquerra is an aspiring full-stack developer with a strong focus on secu
 ## Get in Touch
 Rodwin is open to opportunities and collaborations. Here are the best ways to connect:
 
-**Email**: rodwindizvicquerra@gmail.com
-- Best for: Job opportunities, project collaborations, formal inquiries
-- Response time: Within 24-48 hours
+📧 **Email**: rodwindizvicquerra@gmail.com
+   • Best for job opportunities, collaborations, and formal inquiries
+   • Response time: Within 24-48 hours
 
-**Phone**: +63 916 582 9185
-- Available for: Direct calls, WhatsApp, or SMS
-- Preferred contact hours: 9 AM - 6 PM (Philippine Time)
+📱 **Phone**: +63 916 582 9185
+   • Available for direct calls, WhatsApp, or SMS
+   • Hours: 9 AM - 6 PM (Philippine Time)
 
-**Location**: San Rafael, Roxas, Isabela 3320, Philippines
-- Available for: Remote work opportunities worldwide
-- Open to: On-site opportunities in the Philippines
+📍 **Location**: San Rafael, Roxas, Isabela 3320, Philippines
+   • Open to remote work worldwide
+   • Available for on-site opportunities in the Philippines
 
-**GitHub**: https://github.com/rudWin
-- View code repositories and contributions
-- Open source projects and portfolio code
-- Live project demonstrations
+💻 **GitHub**: github.com/rudWin (https://github.com/rudWin)
+   • View live code repositories
+   • Check out open source contributions
+   • See project demonstrations
 
 ## What to Contact About:
 ✅ Job opportunities and internships

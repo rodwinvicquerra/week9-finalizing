@@ -23,7 +23,7 @@ const SUGGESTED_QUESTIONS = [
   "Tell me about your skills",
   "Show me your projects",
   "What are your goals?",
-  "How can I contact you?"
+  "How can I contact Rodwin?"
 ];
 
 export function ChatWidget({ isOpen, onClose }: ChatWidgetProps) {
