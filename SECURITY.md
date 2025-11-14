@@ -7,11 +7,15 @@ This document outlines the comprehensive security measures implemented in the po
 - [Security Features Overview](#security-features-overview)
 - [1. Enhanced Security Headers](#1-enhanced-security-headers)
 - [2. Content Security Policy (CSP)](#2-content-security-policy-csp)
-- [3. Rate Limiting](#3-rate-limiting)
-- [4. Input Sanitization](#4-input-sanitization)
-- [5. API Route Protection](#5-api-route-protection)
-- [6. Security Logging & Monitoring](#6-security-logging--monitoring)
-- [7. Environment Variable Validation](#7-environment-variable-validation)
+- [3. Intrusion Detection System (IDS)](#3-intrusion-detection-system-ids)
+- [4. CSP Violation Reporter](#4-csp-violation-reporter)
+- [5. Security Notifications](#5-security-notifications)
+- [6. Passwordless Authentication](#6-passwordless-authentication)
+- [7. Rate Limiting](#7-rate-limiting)
+- [8. Input Sanitization](#8-input-sanitization)
+- [9. API Route Protection](#9-api-route-protection)
+- [10. Security Logging & Monitoring](#10-security-logging--monitoring)
+- [11. Environment Variable Validation](#11-environment-variable-validation)
 - [Vercel Deployment](#vercel-deployment)
 - [Security Best Practices](#security-best-practices)
 
@@ -20,7 +24,7 @@ This document outlines the comprehensive security measures implemented in the po
 ## Security Features Overview
 
 ✅ **Implemented Security Measures:**
-- Content Security Policy (CSP) with Clerk whitelisting
+- Content Security Policy (CSP) with Clerk whitelisting and violation reporting
 - Strict Transport Security (HSTS)
 - XSS Protection headers
 - Clickjacking prevention
@@ -30,6 +34,10 @@ This document outlines the comprehensive security measures implemented in the po
 - Origin validation
 - Security event logging
 - Suspicious pattern detection
+- **Intrusion Detection System (IDS)** - Real-time threat monitoring and automatic IP blocking
+- **CSP Violation Reporter** - Tracks XSS attempts and policy violations
+- **Security Notifications** - Email alerts for suspicious activity and critical events
+- **Passwordless Authentication** - Magic link support via Clerk for enhanced security
 
 ---
 
@@ -89,7 +97,278 @@ Content-Security-Policy:
 
 ---
 
-## 3. Rate Limiting
+## 3. Intrusion Detection System (IDS)
+
+### Implementation
+**File:** `lib/security/ids.ts`
+
+### Overview
+Real-time intrusion detection system that monitors, analyzes, and responds to security threats automatically.
+
+### Features
+
+#### Threat Detection
+- **Failed Login Tracking**: Blocks IPs after 5 failed login attempts
+- **Rate Limit Monitoring**: 50 requests per minute per IP
+- **Suspicious Pattern Detection**: Unusual access patterns, locations, devices
+- **Threat Scoring**: 0-100 scale with multi-factor analysis
+- **Automatic Blocking**: IPs with threat score ≥ 80 are auto-blocked
+
+#### Threat Levels
+| Score | Level | Action |
+|-------|-------|--------|
+| 0-39 | Low | Monitor only |
+| 40-69 | Medium | Send alerts |
+| 70-79 | High | Alert + enhanced monitoring |
+| 80-100 | Critical | **Automatic blocking** |
+
+### Tracked Events
+- `failed_login` - Failed authentication attempts
+- `rate_limit_exceeded` - Too many requests
+- `suspicious_pattern` - Unusual behavior detected
+- `unauthorized_access` - Access attempts without proper auth
+- `unusual_location` - Geolocation anomalies
+
+### Integration
+The IDS is integrated into the middleware for automatic request monitoring:
+
+```typescript
+// Automatically checks every request
+if (ids.isBlocked(ipAddress)) {
+  return NextResponse.json({ error: 'Access denied' }, { status: 403 })
+}
+
+// Rate limiting with threat scoring
+const { allowed, threatScore } = ids.trackRequest(ipAddress)
+```
+
+### API Endpoints
+- `GET /admin/security` - Security Operations Center dashboard
+- `GET /api/security/dashboard` - IDS data API (admin only)
+
+### Dashboard Features
+Access at `/admin/security` (admin only):
+- Real-time security event monitoring
+- Threat IP tracking with scores
+- Event statistics and trends
+- Suspicious activity patterns
+
+### Usage Example
+```typescript
+import { ids } from '@/lib/security/ids'
+
+// Track failed login
+const threatScore = ids.trackFailedLogin(ipAddress, email, userAgent)
+
+// Check if IP should be blocked
+if (ids.isBlocked(ipAddress)) {
+  return { error: 'Access denied' }
+}
+
+// Get statistics
+const stats = ids.getStats()
+// Returns: { totalEvents, eventsLast24h, criticalEvents, suspiciousIPs, etc. }
+```
+
+---
+
+## 4. CSP Violation Reporter
+
+### Implementation
+**File:** `lib/security/csp-reporter.ts`
+
+### Overview
+Tracks Content Security Policy violations to detect XSS attempts and policy misconfigurations in real-time.
+
+### How It Works
+1. Browser detects CSP violation
+2. Violation report sent to `/api/security/csp-report`
+3. System analyzes for XSS patterns
+4. High-severity violations trigger IDS alerts
+5. Dashboard shows trends and top offenders
+
+### CSP Configuration
+Updated `next.config.mjs` to include reporting:
+```javascript
+Content-Security-Policy: ...; report-uri /api/security/csp-report
+```
+
+### Monitored Violations
+- **script-src**: Script injection attempts (XSS)
+- **style-src**: Malicious stylesheet injection
+- **img-src**: Image-based attacks
+- **connect-src**: Unauthorized API calls
+- **frame-src**: Clickjacking attempts
+
+### XSS Detection
+The reporter automatically detects XSS attempts by analyzing:
+- Multiple script-src violations
+- Inline script/eval attempts
+- High violation frequency from single IP
+
+```typescript
+const xssCheck = cspReporter.detectXSSAttempt(ipAddress)
+if (xssCheck.isAttempt) {
+  // Severity: low | medium | high
+  // Automatically logged to IDS
+}
+```
+
+### API Endpoints
+- `POST /api/security/csp-report` - Receives violation reports
+- `GET /api/security/dashboard` - View CSP statistics
+
+### Dashboard View
+- Total violations (24h and all-time)
+- Top violated directives
+- Top blocked URIs
+- Recent violation timeline
+- IP-based violation tracking
+
+---
+
+## 5. Security Notifications
+
+### Implementation
+**File:** `lib/security/notifications.ts`
+
+### Overview
+Automated email alert system for security events, suspicious activity, and daily summaries.
+
+### Notification Types
+
+#### 1. Security Alerts
+Triggered on critical/high severity IDS events:
+- Failed login attempts exceeding threshold
+- Rate limit violations
+- Suspicious access patterns
+- Unauthorized access attempts
+
+#### 2. New Device Login Notifications
+Sent when users log in from:
+- New IP addresses
+- New locations
+- New devices/browsers
+
+```typescript
+await securityNotifications.notifyNewDeviceLogin(
+  userEmail,
+  userName,
+  { ipAddress, userAgent, location }
+)
+```
+
+#### 3. Suspicious Activity Alerts
+User-specific alerts for:
+- Multiple failed login attempts
+- Unusual account behavior
+- Account compromise indicators
+
+```typescript
+await securityNotifications.notifySuspiciousActivity(
+  userEmail,
+  'Multiple failed login attempts detected'
+)
+```
+
+#### 4. Daily Security Summary
+Comprehensive report sent at midnight including:
+- IDS statistics (24h)
+- CSP violation counts
+- Top threat IPs
+- Event breakdown by type
+- Threat assessment
+
+### Configuration
+```typescript
+import { securityNotifications } from '@/lib/security/notifications'
+
+securityNotifications.configure({
+  adminEmail: 'admin@example.com',
+  sendEmailAlerts: true,
+  alertThreshold: 'high', // Only send high/critical alerts
+})
+```
+
+### Email Integration
+Currently logs to console. To enable email:
+
+1. Install email service (e.g., Resend):
+```bash
+pnpm add resend
+```
+
+2. Add API key to `.env`:
+```
+RESEND_API_KEY=re_xxxxx
+```
+
+3. Update `lib/security/notifications.ts`:
+```typescript
+import { Resend } from 'resend'
+
+private async sendEmail(to: string, subject: string, body: string) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
+  await resend.emails.send({
+    from: 'security@yourdomain.com',
+    to,
+    subject,
+    text: body,
+  })
+}
+```
+
+---
+
+## 6. Passwordless Authentication
+
+### Overview
+Magic link authentication via Clerk for enhanced security without passwords.
+
+### Benefits
+✅ No passwords to remember or steal  
+✅ Eliminates password reuse attacks  
+✅ Reduces phishing vulnerability  
+✅ One-click authentication  
+✅ More secure than traditional passwords
+
+### Setup Instructions
+
+#### 1. Enable in Clerk Dashboard
+1. Go to [Clerk Dashboard](https://dashboard.clerk.com)
+2. Select your application
+3. Navigate to **User & Authentication** → **Email, Phone, Username**
+4. Enable **"Email verification link"** authentication strategy
+5. Configure email templates under **Emails** tab
+
+#### 2. Customize Email Templates (Optional)
+- Modify magic link email design
+- Add branding and custom messaging
+- Set link expiration time
+
+#### 3. User Experience
+1. User enters email address
+2. Receives magic link via email
+3. Clicks link to authenticate instantly
+4. Session created securely without password
+
+### Security Features
+- **Time-limited links**: Expire after 10 minutes
+- **One-time use**: Links invalidated after single use
+- **Email verification**: Confirms email ownership
+- **No password storage**: Eliminates credential theft risk
+
+### Implementation
+No code changes needed! Clerk handles everything:
+- Magic link generation
+- Email delivery
+- Link validation
+- Session creation
+- Security checks
+
+---
+
+## 7. Rate Limiting
 
 ### Implementation
 **File:** `lib/security/rate-limiter.ts`
@@ -132,7 +411,7 @@ if (rateLimitResult) {
 
 ---
 
-## 4. Input Sanitization
+## 8. Input Sanitization
 
 ### Implementation
 **File:** `lib/security/sanitizer.ts`
@@ -187,7 +466,7 @@ const clean = sanitizeChatMessage(userInput);
 
 ---
 
-## 5. API Route Protection
+## 9. API Route Protection
 
 ### Implementation
 **File:** `lib/security/api-validator.ts`
@@ -244,7 +523,7 @@ All API responses include:
 
 ---
 
-## 6. Security Logging & Monitoring
+## 10. Security Logging & Monitoring
 
 ### Implementation
 **File:** `lib/security/logger.ts`
@@ -314,7 +593,7 @@ logSuspiciousInput(ip, '/api/contact', 'SQL injection detected');
 
 ---
 
-## 7. Environment Variable Validation
+## 11. Environment Variable Validation
 
 ### Implementation
 **File:** `lib/security/api-validator.ts`
@@ -417,7 +696,7 @@ git push origin main
 ### 🔐 Security Checklist
 
 - [x] HTTPS enforced via HSTS
-- [x] Content Security Policy configured
+- [x] Content Security Policy configured with violation reporting
 - [x] XSS protection enabled
 - [x] Clickjacking prevention (X-Frame-Options)
 - [x] MIME-type sniffing prevention
@@ -430,6 +709,12 @@ git push origin main
 - [x] Secure authentication (Clerk)
 - [x] Admin role verification
 - [x] API request validation
+- [x] **Intrusion Detection System (IDS)**
+- [x] **CSP Violation Reporter**
+- [x] **Security Notifications System**
+- [x] **Passwordless Authentication Support**
+- [x] **Automatic Threat Blocking**
+- [x] **Real-time Security Monitoring**
 
 ### 🚨 Incident Response
 
