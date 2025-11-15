@@ -58,31 +58,6 @@ export default async function SecurityPage() {
           </p>
         </div>
 
-        {/* Security Score Card */}
-        <Card className="p-6 mb-6 bg-gradient-to-br from-primary/5 to-accent/5 border-2">
-          <div className="grid md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary mb-1">95/100</div>
-              <div className="text-xs text-muted-foreground">Security Score</div>
-            </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-2 mb-1">
-                <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-lg font-bold">ACTIVE</span>
-              </div>
-              <div className="text-xs text-muted-foreground">Protection Status</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600 mb-1">99.9%</div>
-              <div className="text-xs text-muted-foreground">Uptime</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600 mb-1">0</div>
-              <div className="text-xs text-muted-foreground">Security Incidents</div>
-            </div>
-          </div>
-        </Card>
-
         {/* Implemented Security Features */}
         <div className="grid md:grid-cols-2 gap-6 mb-8">
           <Card className="p-4">
@@ -92,19 +67,28 @@ export default async function SecurityPage() {
             </div>
             <div className="space-y-2">
               {[
-                { name: "OAuth 2.0 Authentication", status: "Active", icon: Lock, color: "text-green-600" },
-                { name: "Security Headers (7 Types)", status: "Active", icon: CheckCircle2, color: "text-green-600" },
-                { name: "Route Protection", status: "Active", icon: Shield, color: "text-green-600" },
-                { name: "Session Management", status: "Active", icon: Activity, color: "text-green-600" },
-                { name: "HTTPS Enforcement", status: "Active", icon: Lock, color: "text-green-600" },
-                { name: "CSRF Protection", status: "Active", icon: Shield, color: "text-green-600" },
+                { name: "OAuth 2.0 Authentication", status: "Active", icon: Lock },
+                { name: "Content Security Policy (CSP) with Clerk whitelisting", status: "Active", icon: Shield },
+                { name: "Strict Transport Security (HSTS)", status: "Active", icon: Lock },
+                { name: "XSS Protection Headers", status: "Active", icon: Shield },
+                { name: "Clickjacking Prevention", status: "Active", icon: Shield },
+                { name: "Rate Limiting on All API Endpoints", status: "Active", icon: Activity },
+                { name: "Input Sanitization for User Content", status: "Active", icon: CheckCircle2 },
+                { name: "SQL Injection Prevention", status: "Active", icon: Shield },
+                { name: "Origin Validation", status: "Active", icon: CheckCircle2 },
+                { name: "Security Event Logging", status: "Active", icon: Activity },
+                { name: "Suspicious Pattern Detection", status: "Active", icon: Activity },
+                { name: "Intrusion Detection System (IDS)", status: "Active", icon: Shield },
+                { name: "CSP Violation Reporter", status: "Active", icon: Activity },
+                { name: "Security Notifications", status: "Active", icon: CheckCircle2 },
+                { name: "Passwordless Authentication (Magic Link)", status: "Active", icon: Lock },
               ].map((feature, idx) => (
                 <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
                   <div className="flex items-center gap-2">
-                    <feature.icon className={`h-4 w-4 ${feature.color}`} />
+                    <feature.icon className="h-4 w-4 text-foreground/70" />
                     <span className="text-sm font-medium">{feature.name}</span>
                   </div>
-                  <Badge variant="outline" className="bg-green-500/10 text-green-600 border-green-500/20 text-xs">
+                  <Badge variant="outline" className="text-xs">
                     {feature.status}
                   </Badge>
                 </div>
@@ -119,19 +103,19 @@ export default async function SecurityPage() {
             </div>
             <div className="space-y-2">
               {[
-                { name: "Rate Limiting Strategy", status: "Documented", icon: Zap, color: "text-blue-600" },
-                { name: "Bot Detection", status: "Documented", icon: Users, color: "text-blue-600" },
-                { name: "SQL Injection Protection", status: "Documented", icon: Shield, color: "text-blue-600" },
-                { name: "DDoS Mitigation", status: "Documented", icon: TrendingUp, color: "text-blue-600" },
-                { name: "Incident Response Plan", status: "Documented", icon: AlertTriangle, color: "text-blue-600" },
-                { name: "Security Audit Procedures", status: "Documented", icon: FileText, color: "text-blue-600" },
+                { name: "Rate Limiting Strategy", status: "Documented", icon: Zap },
+                { name: "Bot Detection", status: "Documented", icon: Users },
+                { name: "SQL Injection Protection", status: "Documented", icon: Shield },
+                { name: "DDoS Mitigation", status: "Documented", icon: TrendingUp },
+                { name: "Incident Response Plan", status: "Documented", icon: AlertTriangle },
+                { name: "Security Audit Procedures", status: "Documented", icon: FileText },
               ].map((feature, idx) => (
                 <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
                   <div className="flex items-center gap-2">
-                    <feature.icon className={`h-4 w-4 ${feature.color}`} />
+                    <feature.icon className="h-4 w-4 text-foreground/70" />
                     <span className="text-sm font-medium">{feature.name}</span>
                   </div>
-                  <Badge variant="outline" className="bg-blue-500/10 text-blue-600 border-blue-500/20 text-xs">
+                  <Badge variant="outline" className="text-xs">
                     {feature.status}
                   </Badge>
                 </div>
@@ -155,16 +139,7 @@ export default async function SecurityPage() {
               <div key={idx} className="border border-border rounded-lg p-3 hover:border-primary/50 transition-colors">
                 <div className="flex items-start justify-between mb-1">
                   <span className="font-semibold text-xs">{header.header}</span>
-                  <Badge 
-                    variant="outline" 
-                    className={
-                      header.severity === "high" 
-                        ? "bg-red-500/10 text-red-600 border-red-500/20 text-xs" 
-                        : header.severity === "medium"
-                        ? "bg-yellow-500/10 text-yellow-600 border-yellow-500/20 text-xs"
-                        : "bg-blue-500/10 text-blue-600 border-blue-500/20 text-xs"
-                    }
-                  >
+                  <Badge variant="outline" className="text-xs">
                     {header.severity.toUpperCase()}
                   </Badge>
                 </div>
@@ -179,17 +154,17 @@ export default async function SecurityPage() {
           <h2 className="text-lg font-bold mb-4">Security Metrics & Performance</h2>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="border border-border rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
-              <TrendingUp className="h-6 w-6 text-green-500 mx-auto mb-2" />
+              <TrendingUp className="h-6 w-6 text-foreground/70 mx-auto mb-2" />
               <div className="text-2xl font-bold mb-1">8</div>
               <div className="text-xs text-muted-foreground">Protected Routes</div>
             </div>
             <div className="border border-border rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
-              <Users className="h-6 w-6 text-blue-500 mx-auto mb-2" />
+              <Users className="h-6 w-6 text-foreground/70 mx-auto mb-2" />
               <div className="text-2xl font-bold mb-1">50+</div>
               <div className="text-xs text-muted-foreground">Authenticated Users</div>
             </div>
             <div className="border border-border rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
-              <Zap className="h-6 w-6 text-yellow-500 mx-auto mb-2" />
+              <Zap className="h-6 w-6 text-foreground/70 mx-auto mb-2" />
               <div className="text-2xl font-bold mb-1">&lt;200ms</div>
               <div className="text-xs text-muted-foreground">Avg Response Time</div>
             </div>
@@ -243,28 +218,28 @@ export default async function SecurityPage() {
           <h2 className="text-lg font-bold mb-3">Recommended Enhancements (Pro Tier)</h2>
           <div className="grid md:grid-cols-2 gap-3">
             <div className="flex items-start gap-2">
-              <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0" />
+              <AlertTriangle className="h-4 w-4 text-foreground/70 mt-0.5 flex-shrink-0" />
               <div>
                 <h4 className="text-sm font-semibold mb-1">Upgrade to Vercel Pro</h4>
                 <p className="text-xs text-muted-foreground">Enable Arcjet middleware for advanced rate limiting and bot protection</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
-              <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0" />
+              <AlertTriangle className="h-4 w-4 text-foreground/70 mt-0.5 flex-shrink-0" />
               <div>
                 <h4 className="text-sm font-semibold mb-1">Enable 2FA for All Users</h4>
                 <p className="text-xs text-muted-foreground">Require two-factor authentication through Clerk settings</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
-              <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0" />
+              <AlertTriangle className="h-4 w-4 text-foreground/70 mt-0.5 flex-shrink-0" />
               <div>
                 <h4 className="text-sm font-semibold mb-1">Quarterly Security Audits</h4>
                 <p className="text-xs text-muted-foreground">Schedule regular penetration testing and vulnerability assessments</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
-              <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0" />
+              <AlertTriangle className="h-4 w-4 text-foreground/70 mt-0.5 flex-shrink-0" />
               <div>
                 <h4 className="text-sm font-semibold mb-1">Real-time Monitoring</h4>
                 <p className="text-xs text-muted-foreground">Implement Datadog or Sentry for live security event tracking</p>

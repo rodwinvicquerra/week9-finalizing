@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   description: "Portfolio of Rodwin Vicquerra - 3rd Year IT Student majoring in Web Development",
   generator: "v0.app",
   icons: {
-    icon: "/iconwebsite.png",
-    shortcut: "/iconwebsite.png",
-    apple: "/iconwebsite.png",
+    icon: "/profilebnw.png",
+    shortcut: "/profilebnw.png",
+    apple: "/profilebnw.png",
   },
 }
 

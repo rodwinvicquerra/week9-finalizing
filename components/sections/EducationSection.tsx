@@ -3,6 +3,7 @@
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { GraduationCap, Award } from "lucide-react"
+import Image from "next/image"
 
 const education = [
   {
@@ -38,9 +39,10 @@ export function EducationSection() {
               </div>
               <div className="flex-1">
                 <h4 className="text-lg font-semibold mb-1">{education[0].degree}</h4>
-                <p className="text-muted-foreground text-sm mb-3">
-                  {education[0].institution} • {education[0].period}
-                </p>
+                <div className="flex items-center gap-2 text-muted-foreground text-sm mb-3">
+                  <Image src="/saintpaullogo.png" alt="St. Paul University" width={20} height={20} className="rounded" />
+                  <span>{education[0].institution} • {education[0].period}</span>
+                </div>
                 <p className="text-sm mb-4 text-foreground/80">{education[0].description}</p>
                 <div className="flex flex-wrap gap-2">
                   {education[0].achievements.map((achievement) => (

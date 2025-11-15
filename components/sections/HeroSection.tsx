@@ -33,9 +33,6 @@ export function HeroSection() {
                 Contact Me
                 <ChevronRight className="h-4 w-4" />
               </Button>
-              <Button size="lg" variant="outline" onClick={() => window.open('/resume.pdf', '_blank')} className="border-border hover:bg-muted">
-                Download CV
-              </Button>
             </div>
             <div className="flex gap-4 pt-4 border-t border-border">
               <a href="https://github.com/rodwinvicquerra" target="_blank" rel="noopener noreferrer" className="p-2 text-muted-foreground hover:text-primary transition-colors" aria-label="GitHub">
