@@ -1,17 +1,20 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 // Portfolio Documentation - Clean sidebar navigation
 const sections = [
-  { id: 'overview', title: 'Overview' },
-  { id: 'auth', title: 'Authentication' },
-  { id: 'security', title: 'Security Features' },
-  { id: 'ai', title: 'AI Chat' },
-  { id: 'database', title: 'Database' },
-  { id: 'features', title: 'Advanced Features' },
-  { id: 'deployment', title: 'Deployment' },
-  { id: 'api', title: 'API Routes' },
+  { id: 'overview', title: '📚 Overview', emoji: '📚' },
+  { id: 'auth', title: '🔐 Authentication', emoji: '🔐' },
+  { id: 'security', title: '🛡️ Security Features', emoji: '🛡️' },
+  { id: 'ai', title: '🤖 AI Chat', emoji: '🤖' },
+  { id: 'database', title: '💾 Database', emoji: '💾' },
+  { id: 'features', title: '⚡ Advanced Features', emoji: '⚡' },
+  { id: 'deployment', title: '🚀 Deployment', emoji: '🚀' },
+  { id: 'api', title: '🔌 API Routes', emoji: '🔌' },
 ];
 
 export default function DocumentationPage() {
@@ -21,13 +24,21 @@ export default function DocumentationPage() {
     <div className="min-h-screen flex pt-16">
       {/* Sidebar */}
       <aside className="w-64 border-r bg-background p-6 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
-        <h2 className="text-xl font-bold mb-6">Documentation</h2>
-        <nav className="space-y-2">
+        <div className="mb-6">
+          <Link href="/">
+            <Button variant="ghost" className="w-full justify-start text-sm mb-4 hover:bg-muted">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Portfolio
+            </Button>
+          </Link>
+          <h2 className="text-lg font-bold">Documentation</h2>
+        </div>
+        <nav className="space-y-1">
           {sections.map((section) => (
             <button
               key={section.id}
               onClick={() => setActiveSection(section.id)}
-              className={`w-full text-left px-4 py-2 rounded transition-colors ${
+              className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
                 activeSection === section.id
                   ? 'bg-foreground text-background'
                   : 'hover:bg-muted'
@@ -41,16 +52,16 @@ export default function DocumentationPage() {
 
       {/* Main Content */}
       <main className="flex-1 p-8 max-w-4xl">
-        <div className="space-y-12">
+        <div className="space-y-8">
           {/* Overview */}
           {activeSection === 'overview' && (
             <div>
-              <h1 className="text-3xl font-bold mb-6">Tech Stack Overview</h1>
+              <h1 className="text-2xl font-bold mb-4">📚 Tech Stack Overview</h1>
               
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-xl font-semibold mb-3">Frontend Framework</h2>
-                  <ul className="space-y-2 ml-4">
+                  <h2 className="text-lg font-semibold mb-2">Frontend Framework</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
                     <li>• Next.js 14 - React framework with App Router</li>
                     <li>• TypeScript - Type-safe JavaScript</li>
                     <li>• Tailwind CSS - Utility-first CSS framework</li>
@@ -59,16 +70,16 @@ export default function DocumentationPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-xl font-semibold mb-3">Backend & APIs</h2>
-                  <ul className="space-y-2 ml-4">
+                  <h2 className="text-lg font-semibold mb-2">Backend & APIs</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
                     <li>• Next.js API Routes - Serverless functions</li>
                     <li>• Groq AI API - AI chat integration</li>
                   </ul>
                 </div>
 
                 <div>
-                  <h2 className="text-xl font-semibold mb-3">Deployment</h2>
-                  <ul className="space-y-2 ml-4">
+                  <h2 className="text-lg font-semibold mb-2">Deployment</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
                     <li>• Vercel - Automatic deployments from GitHub</li>
                   </ul>
                 </div>
@@ -79,7 +90,7 @@ export default function DocumentationPage() {
           {/* Authentication */}
           {activeSection === 'auth' && (
             <div>
-              <h1 className="text-3xl font-bold mb-6">Clerk Authentication</h1>
+              <h1 className="text-2xl font-bold mb-4">🔐 Clerk Authentication</h1>
               
               <div className="space-y-6">
                 <div>
@@ -128,8 +139,8 @@ if (!userId || userRole !== 'admin') {
           {/* Security */}
           {activeSection === 'security' && (
             <div>
-              <h1 className="text-3xl font-bold mb-6">Security Features</h1>
-              <p className="mb-6">95/100 security score with OWASP compliance</p>
+              <h1 className="text-2xl font-bold mb-4">🛡️ Security Features</h1>
+              <p className="mb-4 text-sm text-muted-foreground">95/100 security score with OWASP compliance</p>
               
               <div className="space-y-6">
                 <div>
@@ -177,7 +188,7 @@ if (!userId || userRole !== 'admin') {
           {/* AI Chat */}
           {activeSection === 'ai' && (
             <div>
-              <h1 className="text-3xl font-bold mb-6">AI Chat Integration</h1>
+              <h1 className="text-2xl font-bold mb-4">🤖 AI Chat Integration</h1>
               
               <div className="space-y-6">
                 <div>
@@ -229,7 +240,7 @@ if (!userId || userRole !== 'admin') {
           {/* Database */}
           {activeSection === 'database' && (
             <div>
-              <h1 className="text-3xl font-bold mb-6">Database Setup</h1>
+              <h1 className="text-2xl font-bold mb-4">💾 Database Setup</h1>
               
               <div className="space-y-6">
                 <div>
@@ -266,7 +277,7 @@ POSTGRES_URL=postgresql://user:password@host/database
           {/* Features */}
           {activeSection === 'features' && (
             <div>
-              <h1 className="text-3xl font-bold mb-6">Advanced Features</h1>
+              <h1 className="text-2xl font-bold mb-4">⚡ Advanced Features</h1>
               
               <div className="space-y-4">
                 <div className="border p-4">
@@ -305,7 +316,7 @@ POSTGRES_URL=postgresql://user:password@host/database
           {/* Deployment */}
           {activeSection === 'deployment' && (
             <div>
-              <h1 className="text-3xl font-bold mb-6">Vercel Deployment</h1>
+              <h1 className="text-2xl font-bold mb-4">🚀 Vercel Deployment</h1>
               
               <div className="space-y-6">
                 <div>
@@ -346,7 +357,7 @@ POSTGRES_URL`}
           {/* API Routes */}
           {activeSection === 'api' && (
             <div>
-              <h1 className="text-3xl font-bold mb-6">API Routes</h1>
+              <h1 className="text-2xl font-bold mb-4">🔌 API Routes</h1>
               
               <div className="space-y-4">
                 <div className="border p-4">
