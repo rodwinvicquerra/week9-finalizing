@@ -22,7 +22,7 @@ export default function DocumentationPage() {
   const [activeSection, setActiveSection] = useState('overview');
 
   return (
-    <div className="min-h-screen flex pt-16">
+    <div className="min-h-screen flex pt-6">
       {/* Sidebar */}
       <aside className="w-64 border-r bg-background p-6 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
         <div className="mb-6">
@@ -161,41 +161,154 @@ if (!userId || userRole !== 'admin') {
               
               <div className="space-y-4">
                 <div className="border rounded-lg p-4">
-                  <h2 className="text-lg font-semibold mb-3">1. Intrusion Detection System (IDS)</h2>
+                  <h2 className="text-lg font-semibold mb-3">1. Enhanced Security Headers</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
+                    <li>• <strong>Content-Security-Policy</strong> - Prevents XSS attacks with strict CSP</li>
+                    <li>• <strong>Strict-Transport-Security</strong> - HSTS enabled (2 years)</li>
+                    <li>• <strong>X-Content-Type-Options</strong> - nosniff protection</li>
+                    <li>• <strong>X-XSS-Protection</strong> - 1; mode=block</li>
+                    <li>• <strong>Referrer-Policy</strong> - strict-origin-when-cross-origin</li>
+                    <li>• <strong>Permissions-Policy</strong> - Restrictive permissions</li>
+                  </ul>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">2. Content Security Policy (CSP)</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
+                    <li>• Strict CSP with Clerk whitelisting</li>
+                    <li>• CSP violation reporting to <code className="bg-muted px-1 rounded text-xs">/api/security/csp-report</code></li>
+                    <li>• XSS and injection attack prevention</li>
+                    <li>• Upgrade insecure requests enabled</li>
+                  </ul>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">3. Intrusion Detection System (IDS)</h2>
                   <ul className="space-y-1 ml-4 text-sm">
                     <li>• Real-time threat detection and scoring (0-100)</li>
                     <li>• Failed login attempt tracking (5 attempt threshold)</li>
                     <li>• Rate limiting (50 requests/minute)</li>
                     <li>• Automatic IP blocking (threat score ≥80)</li>
+                    <li>• Suspicious pattern detection</li>
                   </ul>
                 </div>
 
                 <div className="border rounded-lg p-4">
-                  <h2 className="text-lg font-semibold mb-3">2. Content Security Policy (CSP) Reporter</h2>
+                  <h2 className="text-lg font-semibold mb-3">4. CSP Violation Reporter</h2>
                   <ul className="space-y-1 ml-4 text-sm">
-                    <li>• XSS attack detection</li>
-                    <li>• CSP violation tracking</li>
-                    <li>• Real-time security event logging</li>
+                    <li>• XSS attack detection and analysis</li>
+                    <li>• CSP violation tracking and logging</li>
+                    <li>• Real-time security event monitoring</li>
+                    <li>• Top violated directives dashboard</li>
                   </ul>
                 </div>
 
                 <div className="border rounded-lg p-4">
-                  <h2 className="text-lg font-semibold mb-3">3. Security Notifications</h2>
+                  <h2 className="text-lg font-semibold mb-3">5. Security Notifications</h2>
                   <ul className="space-y-1 ml-4 text-sm">
                     <li>• Email alerts for critical threats</li>
-                    <li>• Admin dashboard notifications</li>
-                    <li>• Webhook integration ready</li>
+                    <li>• New device login notifications</li>
+                    <li>• Suspicious activity alerts</li>
+                    <li>• Daily security summary reports</li>
                   </ul>
                 </div>
 
                 <div className="border rounded-lg p-4">
-                  <h2 className="text-lg font-semibold mb-3">4. Security Operations Center</h2>
+                  <h2 className="text-lg font-semibold mb-3">6. Passwordless Authentication</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
+                    <li>• Magic link email authentication via Clerk</li>
+                    <li>• Time-limited one-time use links (10 min)</li>
+                    <li>• No password storage or credential theft risk</li>
+                    <li>• Email verification built-in</li>
+                  </ul>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">7. Rate Limiting</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
+                    <li>• IP-based rate limiting on all API routes</li>
+                    <li>• Chat API: 10 requests/60s</li>
+                    <li>• Contact API: 5 requests/5min</li>
+                    <li>• Admin API: 20 requests/60s</li>
+                    <li>• Automatic blocking with Retry-After headers</li>
+                  </ul>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">8. Input Sanitization</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
+                    <li>• HTML tag removal from all user inputs</li>
+                    <li>• SQL injection pattern detection</li>
+                    <li>• XSS attempt detection and logging</li>
+                    <li>• Email validation and sanitization</li>
+                    <li>• Message length limits enforced</li>
+                  </ul>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">9. API Route Protection</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
+                    <li>• Request method validation (GET/POST/PATCH)</li>
+                    <li>• Origin validation for cross-origin requests</li>
+                    <li>• Content-Type validation for POST requests</li>
+                    <li>• Authentication required for protected routes</li>
+                    <li>• Security headers on all responses</li>
+                  </ul>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">10. Security Logging & Monitoring</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
+                    <li>• All security events logged with timestamps</li>
+                    <li>• Severity levels: Low, Medium, High, Critical</li>
+                    <li>• IP tracking for all suspicious activity</li>
+                    <li>• In-memory storage (last 1000 events)</li>
+                    <li>• Console logging visible in Vercel dashboard</li>
+                  </ul>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">11. Environment Variable Validation</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
+                    <li>• Startup validation of required variables</li>
+                    <li>• Clerk keys (public & secret)</li>
+                    <li>• Database URL verification</li>
+                    <li>• Groq API key validation</li>
+                    <li>• Prevents runtime crashes from missing configs</li>
+                  </ul>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">Security Operations Center</h2>
                   <p className="mb-2 text-sm">Admin-only dashboard at <code className="bg-muted px-2 py-1 rounded text-xs">/admin/security</code></p>
                   <ul className="space-y-1 ml-4 text-sm">
                     <li>• Security Events - Real-time monitoring</li>
                     <li>• Threat Analysis - IP tracking & scoring</li>
                     <li>• CSP Reports - Violation tracking</li>
-                    <li>• Statistics - Security metrics</li>
+                    <li>• Statistics - Security metrics & trends</li>
+                  </ul>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">Vercel Deployment Security</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
+                    <li>• All security features work on Vercel serverless</li>
+                    <li>• Security headers applied via edge network</li>
+                    <li>• Environment variables encrypted at rest</li>
+                    <li>• Logs visible in Vercel dashboard</li>
+                    <li>• HTTPS enforced on all deployments</li>
+                  </ul>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">Security Best Practices</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
+                    <li>• Defense in depth - multiple security layers</li>
+                    <li>• Fail secure - invalid requests rejected</li>
+                    <li>• Least privilege - RBAC enforcement</li>
+                    <li>• Input validation - all user input sanitized</li>
+                    <li>• Security logging - all events tracked</li>
+                    <li>• Regular updates - dependencies kept current</li>
                   </ul>
                 </div>
               </div>
