@@ -4,17 +4,18 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/common';
 
 // Portfolio Documentation - Clean sidebar navigation
 const sections = [
-  { id: 'overview', title: '📚 Overview', emoji: '📚' },
-  { id: 'auth', title: '🔐 Authentication', emoji: '🔐' },
-  { id: 'security', title: '🛡️ Security Features', emoji: '🛡️' },
-  { id: 'ai', title: '🤖 AI Chat', emoji: '🤖' },
-  { id: 'database', title: '💾 Database', emoji: '💾' },
-  { id: 'features', title: '⚡ Advanced Features', emoji: '⚡' },
-  { id: 'deployment', title: '🚀 Deployment', emoji: '🚀' },
-  { id: 'api', title: '🔌 API Routes', emoji: '🔌' },
+  { id: 'overview', title: 'Overview' },
+  { id: 'auth', title: 'Authentication' },
+  { id: 'security', title: 'Security Features' },
+  { id: 'ai', title: 'AI Chat' },
+  { id: 'database', title: 'Database' },
+  { id: 'features', title: 'Advanced Features' },
+  { id: 'deployment', title: 'Deployment' },
+  { id: 'api', title: 'API Routes' },
 ];
 
 export default function DocumentationPage() {
@@ -25,12 +26,15 @@ export default function DocumentationPage() {
       {/* Sidebar */}
       <aside className="w-64 border-r bg-background p-6 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
         <div className="mb-6">
-          <Link href="/">
-            <Button variant="ghost" className="w-full justify-start text-sm mb-4 hover:bg-muted">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Portfolio
-            </Button>
-          </Link>
+          <div className="flex items-center justify-between mb-4">
+            <Link href="/">
+              <Button variant="ghost" size="sm" className="text-sm hover:bg-muted">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back
+              </Button>
+            </Link>
+            <ThemeToggle />
+          </div>
           <h2 className="text-lg font-bold">Documentation</h2>
         </div>
         <nav className="space-y-1">
@@ -56,7 +60,7 @@ export default function DocumentationPage() {
           {/* Overview */}
           {activeSection === 'overview' && (
             <div>
-              <h1 className="text-2xl font-bold mb-4">📚 Tech Stack Overview</h1>
+              <h1 className="text-2xl font-bold mb-4">Tech Stack Overview</h1>
               
               <div className="space-y-6">
                 <div>
@@ -90,7 +94,7 @@ export default function DocumentationPage() {
           {/* Authentication */}
           {activeSection === 'auth' && (
             <div>
-              <h1 className="text-2xl font-bold mb-4">🔐 Clerk Authentication</h1>
+              <h1 className="text-2xl font-bold mb-4">Clerk Authentication</h1>
               
               <div className="space-y-6">
                 <div>
@@ -139,13 +143,13 @@ if (!userId || userRole !== 'admin') {
           {/* Security */}
           {activeSection === 'security' && (
             <div>
-              <h1 className="text-2xl font-bold mb-4">🛡️ Security Features</h1>
+              <h1 className="text-2xl font-bold mb-4">Security Features</h1>
               <p className="mb-4 text-sm text-muted-foreground">95/100 security score with OWASP compliance</p>
               
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-xl font-semibold mb-3">1. Intrusion Detection System (IDS)</h2>
-                  <ul className="space-y-2 ml-4">
+              <div className="space-y-4">
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">1. Intrusion Detection System (IDS)</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
                     <li>• Real-time threat detection and scoring (0-100)</li>
                     <li>• Failed login attempt tracking (5 attempt threshold)</li>
                     <li>• Rate limiting (50 requests/minute)</li>
@@ -153,28 +157,28 @@ if (!userId || userRole !== 'admin') {
                   </ul>
                 </div>
 
-                <div>
-                  <h2 className="text-xl font-semibold mb-3">2. Content Security Policy (CSP) Reporter</h2>
-                  <ul className="space-y-2 ml-4">
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">2. Content Security Policy (CSP) Reporter</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
                     <li>• XSS attack detection</li>
                     <li>• CSP violation tracking</li>
                     <li>• Real-time security event logging</li>
                   </ul>
                 </div>
 
-                <div>
-                  <h2 className="text-xl font-semibold mb-3">3. Security Notifications</h2>
-                  <ul className="space-y-2 ml-4">
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">3. Security Notifications</h2>
+                  <ul className="space-y-1 ml-4 text-sm">
                     <li>• Email alerts for critical threats</li>
                     <li>• Admin dashboard notifications</li>
                     <li>• Webhook integration ready</li>
                   </ul>
                 </div>
 
-                <div>
-                  <h2 className="text-xl font-semibold mb-3">4. Security Operations Center</h2>
-                  <p className="mb-3">Admin-only dashboard at <code className="bg-muted px-2 py-1 rounded">/admin/security</code></p>
-                  <ul className="space-y-2 ml-4">
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">4. Security Operations Center</h2>
+                  <p className="mb-2 text-sm">Admin-only dashboard at <code className="bg-muted px-2 py-1 rounded text-xs">/admin/security</code></p>
+                  <ul className="space-y-1 ml-4 text-sm">
                     <li>• Security Events - Real-time monitoring</li>
                     <li>• Threat Analysis - IP tracking & scoring</li>
                     <li>• CSP Reports - Violation tracking</li>
@@ -188,7 +192,7 @@ if (!userId || userRole !== 'admin') {
           {/* AI Chat */}
           {activeSection === 'ai' && (
             <div>
-              <h1 className="text-2xl font-bold mb-4">🤖 AI Chat Integration</h1>
+              <h1 className="text-2xl font-bold mb-4">AI Chat Integration</h1>
               
               <div className="space-y-6">
                 <div>
@@ -240,7 +244,7 @@ if (!userId || userRole !== 'admin') {
           {/* Database */}
           {activeSection === 'database' && (
             <div>
-              <h1 className="text-2xl font-bold mb-4">💾 Database Setup</h1>
+              <h1 className="text-2xl font-bold mb-4">Database Setup</h1>
               
               <div className="space-y-6">
                 <div>
@@ -277,7 +281,7 @@ POSTGRES_URL=postgresql://user:password@host/database
           {/* Features */}
           {activeSection === 'features' && (
             <div>
-              <h1 className="text-2xl font-bold mb-4">⚡ Advanced Features</h1>
+              <h1 className="text-2xl font-bold mb-4">Advanced Features</h1>
               
               <div className="space-y-4">
                 <div className="border p-4">
@@ -316,7 +320,7 @@ POSTGRES_URL=postgresql://user:password@host/database
           {/* Deployment */}
           {activeSection === 'deployment' && (
             <div>
-              <h1 className="text-2xl font-bold mb-4">🚀 Vercel Deployment</h1>
+              <h1 className="text-2xl font-bold mb-4">Vercel Deployment</h1>
               
               <div className="space-y-6">
                 <div>
@@ -357,7 +361,7 @@ POSTGRES_URL`}
           {/* API Routes */}
           {activeSection === 'api' && (
             <div>
-              <h1 className="text-2xl font-bold mb-4">🔌 API Routes</h1>
+              <h1 className="text-2xl font-bold mb-4">API Routes</h1>
               
               <div className="space-y-4">
                 <div className="border p-4">
