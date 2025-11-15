@@ -88,24 +88,27 @@ export function Navigation() {
                   <a 
                     key={item.name} 
                     href={item.href}
-                    className="inline-flex items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-200 px-4 h-9 cursor-pointer"
+                    className="inline-flex items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200 px-4 h-9 cursor-pointer relative group"
                   >
                     {item.name}
+                    <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-[1.5px] bg-foreground group-hover:w-[calc(100%-2rem)] transition-all duration-300 ease-out" />
                   </a>
                 ) : (
                   <Button 
                     key={item.name} 
                     variant="ghost" 
                     onClick={() => scrollToSection(item.href)} 
-                    className={`text-sm font-medium transition-all duration-200 px-4 relative ${
+                    className={`text-sm font-medium transition-all duration-200 px-4 relative group ${
                       activeSection === item.href
                         ? 'text-foreground bg-muted/70'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                        : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     {item.name}
-                    {activeSection === item.href && (
-                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />
+                    {activeSection === item.href ? (
+                      <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] h-[1.5px] bg-foreground" />
+                    ) : (
+                      <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-[1.5px] bg-foreground group-hover:w-[calc(100%-2rem)] transition-all duration-300 ease-out" />
                     )}
                   </Button>
                 )
