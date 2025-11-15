@@ -59,70 +59,50 @@ export default async function SecurityPage() {
         </div>
 
         {/* Implemented Security Features */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <Card className="p-4">
-            <div className="flex items-center gap-2 mb-4">
-              <Shield className="h-5 w-5 text-primary" />
-              <h2 className="text-lg font-bold">Active Security Features</h2>
-            </div>
-            <div className="space-y-2">
-              {[
-                { name: "OAuth 2.0 Authentication", status: "Active", icon: Lock },
-                { name: "Content Security Policy (CSP) with Clerk whitelisting", status: "Active", icon: Shield },
-                { name: "Strict Transport Security (HSTS)", status: "Active", icon: Lock },
-                { name: "XSS Protection Headers", status: "Active", icon: Shield },
-                { name: "Clickjacking Prevention", status: "Active", icon: Shield },
-                { name: "Rate Limiting on All API Endpoints", status: "Active", icon: Activity },
-                { name: "Input Sanitization for User Content", status: "Active", icon: CheckCircle2 },
-                { name: "SQL Injection Prevention", status: "Active", icon: Shield },
-                { name: "Origin Validation", status: "Active", icon: CheckCircle2 },
-                { name: "Security Event Logging", status: "Active", icon: Activity },
-                { name: "Suspicious Pattern Detection", status: "Active", icon: Activity },
-                { name: "Intrusion Detection System (IDS)", status: "Active", icon: Shield },
-                { name: "CSP Violation Reporter", status: "Active", icon: Activity },
-                { name: "Security Notifications", status: "Active", icon: CheckCircle2 },
-                { name: "Passwordless Authentication (Magic Link)", status: "Active", icon: Lock },
-              ].map((feature, idx) => (
-                <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
-                  <div className="flex items-center gap-2">
-                    <feature.icon className="h-4 w-4 text-foreground/70" />
-                    <span className="text-sm font-medium">{feature.name}</span>
-                  </div>
-                  <Badge variant="outline" className="text-xs">
-                    {feature.status}
-                  </Badge>
+        <Card className="p-6 mb-6">
+          <h2 className="text-lg font-bold mb-4">Security Features Overview</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {[
+              { name: "OAuth 2.0 Authentication", status: "Active", icon: Lock },
+              { name: "Content Security Policy (CSP)", status: "Active", icon: Shield },
+              { name: "Strict Transport Security (HSTS)", status: "Active", icon: Lock },
+              { name: "XSS Protection Headers", status: "Active", icon: Shield },
+              { name: "Clickjacking Prevention", status: "Active", icon: Shield },
+              { name: "Rate Limiting on All API Endpoints", status: "Active", icon: Activity },
+              { name: "Input Sanitization for User Content", status: "Active", icon: CheckCircle2 },
+              { name: "SQL Injection Prevention", status: "Active", icon: Shield },
+              { name: "Origin Validation", status: "Active", icon: CheckCircle2 },
+              { name: "Security Event Logging", status: "Active", icon: Activity },
+              { name: "Suspicious Pattern Detection", status: "Active", icon: Activity },
+              { name: "Intrusion Detection System (IDS)", status: "Active", icon: Shield },
+              { name: "CSP Violation Reporter", status: "Active", icon: Activity },
+              { name: "Security Notifications", status: "Active", icon: CheckCircle2 },
+              { name: "Passwordless Authentication", status: "Active", icon: Lock },
+              { name: "Rate Limiting Strategy", status: "Documented", icon: Zap },
+              { name: "Bot Detection", status: "Documented", icon: Users },
+              { name: "DDoS Mitigation", status: "Documented", icon: TrendingUp },
+              { name: "Incident Response Plan", status: "Documented", icon: AlertTriangle },
+              { name: "Security Audit Procedures", status: "Documented", icon: FileText },
+            ].map((feature, idx) => (
+              <div key={idx} className="flex items-center justify-between p-2 rounded-lg border border-border hover:border-primary/50 transition-colors">
+                <div className="flex items-center gap-2">
+                  <feature.icon className="h-3.5 w-3.5 text-foreground/70" />
+                  <span className="text-xs font-medium">{feature.name}</span>
                 </div>
-              ))}
-            </div>
-          </Card>
-
-          <Card className="p-4">
-            <div className="flex items-center gap-2 mb-4">
-              <FileText className="h-5 w-5 text-primary" />
-              <h2 className="text-lg font-bold">Documented Features</h2>
-            </div>
-            <div className="space-y-2">
-              {[
-                { name: "Rate Limiting Strategy", status: "Documented", icon: Zap },
-                { name: "Bot Detection", status: "Documented", icon: Users },
-                { name: "SQL Injection Protection", status: "Documented", icon: Shield },
-                { name: "DDoS Mitigation", status: "Documented", icon: TrendingUp },
-                { name: "Incident Response Plan", status: "Documented", icon: AlertTriangle },
-                { name: "Security Audit Procedures", status: "Documented", icon: FileText },
-              ].map((feature, idx) => (
-                <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
-                  <div className="flex items-center gap-2">
-                    <feature.icon className="h-4 w-4 text-foreground/70" />
-                    <span className="text-sm font-medium">{feature.name}</span>
-                  </div>
-                  <Badge variant="outline" className="text-xs">
-                    {feature.status}
-                  </Badge>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </div>
+                <Badge 
+                  variant="outline" 
+                  className={`text-xs ${
+                    feature.status === "Active" 
+                      ? "border-green-500 bg-green-500/10" 
+                      : "border-blue-500 bg-blue-500/10"
+                  }`}
+                >
+                  {feature.status}
+                </Badge>
+              </div>
+            ))}
+          </div>
+        </Card>
 
         {/* Security Headers */}
         <Card className="p-6 mb-6">
@@ -139,7 +119,16 @@ export default async function SecurityPage() {
               <div key={idx} className="border border-border rounded-lg p-3 hover:border-primary/50 transition-colors">
                 <div className="flex items-start justify-between mb-1">
                   <span className="font-semibold text-xs">{header.header}</span>
-                  <Badge variant="outline" className="text-xs">
+                  <Badge 
+                    variant="outline" 
+                    className={`text-xs ${
+                      header.severity === "high" 
+                        ? "border-red-500 bg-red-500/10" 
+                        : header.severity === "medium"
+                        ? "border-yellow-500 bg-yellow-500/10"
+                        : "border-border"
+                    }`}
+                  >
                     {header.severity.toUpperCase()}
                   </Badge>
                 </div>
