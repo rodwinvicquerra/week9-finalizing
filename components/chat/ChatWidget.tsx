@@ -20,10 +20,11 @@ interface ChatWidgetProps {
 }
 
 const SUGGESTED_QUESTIONS = [
-  "Tell me about your skills",
+  "What are your strengths?",
+  "What are your weaknesses?",
   "Show me your projects",
   "What are your goals?",
-  "How can I contact Rodwin?"
+  "How can I contact you?"
 ];
 
 export function ChatWidget({ isOpen, onClose }: ChatWidgetProps) {
@@ -45,7 +46,7 @@ export function ChatWidget({ isOpen, onClose }: ChatWidgetProps) {
           id: '1',
           role: 'assistant',
           content:
-            "Hi! 👋 I'm Rodwin's AI assistant. Ask me about his skills, projects, education, or career goals!",
+            "Hey there! 👋 I'm Rodwin! Well, actually an AI version of me. Ask me anything about my skills, projects, or what I'm working on!",
         },
       ]);
     }
