@@ -3,14 +3,14 @@
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Shield, Sparkles, MessageSquare, TestTube, Github, Database, Lock } from 'lucide-react';
+import { ArrowLeft, Shield, Sparkles, MessageSquare, TestTube, Github, Database, Lock, FileText } from 'lucide-react';
 import Link from 'next/link';
 
 const sections = [
   {
     id: 'overview',
     title: 'Overview',
-    icon: Database,
+    icon: FileText,
   },
   {
     id: 'authentication',
@@ -50,135 +50,137 @@ export default function DocumentationPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-8 space-y-4">
-              <div className="mb-6">
-                <h2 className="text-sm font-semibold text-muted-foreground mb-4">DOCUMENTATION</h2>
-                <div className="space-y-1">
-                  {sections.map((section) => {
-                    const Icon = section.icon;
-                    return (
-                      <button
-                        key={section.id}
-                        onClick={() => setActiveSection(section.id)}
-                        className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg text-left transition-colors ${
-                          activeSection === section.id
-                            ? 'bg-primary text-primary-foreground'
-                            : 'hover:bg-muted'
-                        }`}
-                      >
-                        <Icon className="h-4 w-4" />
-                        <span className="text-sm font-medium">{section.title}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+        <div className="space-y-8">
+          {/* Header */}
+          <div className="text-center space-y-4">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Documentation
+            </h1>
+            <p className="text-muted-foreground max-w-3xl mx-auto">
+              Comprehensive technical documentation for my portfolio system featuring <span className="font-semibold text-blue-600">advanced security</span>,{' '}
+              <span className="font-semibold text-purple-600">AI integration</span>, and{' '}
+              <span className="font-semibold text-pink-600">modern web technologies</span>.
+            </p>
+            <Link href="/">
+              <Button variant="outline">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Portfolio
+              </Button>
+            </Link>
+          </div>
 
-              <Link href="/">
-                <Button variant="outline" className="w-full">
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Portfolio
-                </Button>
-              </Link>
-            </div>
+          {/* Horizontal Navigation Tabs */}
+          <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide">
+            {sections.map((section) => {
+              const Icon = section.icon;
+              return (
+                <button
+                  key={section.id}
+                  onClick={() => setActiveSection(section.id)}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-300 flex-shrink-0 ${
+                    activeSection === section.id
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg scale-105'
+                      : 'bg-muted hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 hover:text-white hover:shadow-md hover:scale-105'
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span>{section.title}</span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Main Content */}
-          <div className="lg:col-span-3">
+          <div className="max-w-5xl mx-auto">
             <div className="space-y-8">
-              {/* Header */}
-              <div>
-                <h1 className="text-4xl font-bold mb-2">Documentation</h1>
-                <p className="text-muted-foreground">
-                  Comprehensive technical documentation for my portfolio system featuring advanced security,
-                  AI integration, and modern web technologies.
-                </p>
-              </div>
-
-              {/* Overview Section */}
               {activeSection === 'overview' && (
                 <div className="space-y-6">
-                  <Card>
+                  <Card className="hover:shadow-xl transition-shadow duration-300">
                     <CardHeader>
-                      <CardTitle>About This Portfolio</CardTitle>
+                      <CardTitle className="text-2xl">About This Portfolio</CardTitle>
                       <CardDescription>
-                        A production-ready Next.js 14 portfolio featuring advanced security, AI-powered chat,
-                        and role-based access control.
+                        A production-ready{' '}
+                        <span className="font-semibold text-blue-600">Next.js 14</span> portfolio featuring{' '}
+                        <span className="font-semibold text-purple-600">advanced security</span>,{' '}
+                        <span className="font-semibold text-pink-600">AI-powered chat</span>, and{' '}
+                        <span className="font-semibold text-green-600">role-based access control</span>.
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <h3 className="font-semibold mb-2">Framework</h3>
+                      <div className="hover:scale-105 transition-transform duration-300">
+                        <h3 className="font-semibold mb-2 text-blue-600">Framework</h3>
                         <p className="text-sm text-muted-foreground">Next.js 14 with App Router</p>
                       </div>
-                      <div>
-                        <h3 className="font-semibold mb-2">AI Model</h3>
+                      <div className="hover:scale-105 transition-transform duration-300">
+                        <h3 className="font-semibold mb-2 text-purple-600">AI Model</h3>
                         <p className="text-sm text-muted-foreground">Groq AI (llama-3.1-8b-instant)</p>
                       </div>
-                      <div>
-                        <h3 className="font-semibold mb-2">Database</h3>
+                      <div className="hover:scale-105 transition-transform duration-300">
+                        <h3 className="font-semibold mb-2 text-pink-600">Database</h3>
                         <p className="text-sm text-muted-foreground">Neon PostgreSQL</p>
                       </div>
-                      <div>
-                        <h3 className="font-semibold mb-2">Deployment</h3>
+                      <div className="hover:scale-105 transition-transform duration-300">
+                        <h3 className="font-semibold mb-2 text-green-600">Deployment</h3>
                         <p className="text-sm text-muted-foreground">Vercel Edge</p>
                       </div>
                     </CardContent>
                   </Card>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Card className="cursor-pointer hover:border-primary transition-colors" onClick={() => setActiveSection('authentication')}>
+                    <Card className="cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300 hover:border-blue-500" onClick={() => setActiveSection('authentication')}>
                       <CardHeader>
-                        <Lock className="h-8 w-8 mb-2 text-primary" />
+                        <Lock className="h-8 w-8 mb-2 text-blue-600" />
                         <CardTitle>Authentication & Security</CardTitle>
                         <CardDescription>
-                          Clerk OAuth integration, RBAC system, and admin dashboard implementation.
+                          <span className="font-semibold text-blue-600">Clerk OAuth</span> integration,{' '}
+                          <span className="font-semibold text-purple-600">RBAC system</span>, and admin dashboard implementation.
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <Button variant="link" className="p-0">Read more →</Button>
+                        <Button variant="link" className="p-0 text-blue-600 hover:text-blue-700">Read more →</Button>
                       </CardContent>
                     </Card>
 
-                    <Card className="cursor-pointer hover:border-primary transition-colors" onClick={() => setActiveSection('features')}>
+                    <Card className="cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300 hover:border-purple-500" onClick={() => setActiveSection('features')}>
                       <CardHeader>
-                        <Sparkles className="h-8 w-8 mb-2 text-primary" />
+                        <Sparkles className="h-8 w-8 mb-2 text-purple-600" />
                         <CardTitle>Advanced Features</CardTitle>
                         <CardDescription>
-                          Intrusion Detection System, CSP violation tracking, and security notifications.
+                          <span className="font-semibold text-purple-600">Intrusion Detection System</span>,{' '}
+                          <span className="font-semibold text-pink-600">CSP violation tracking</span>, and security notifications.
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <Button variant="link" className="p-0">Read more →</Button>
+                        <Button variant="link" className="p-0 text-purple-600 hover:text-purple-700">Read more →</Button>
                       </CardContent>
                     </Card>
 
-                    <Card className="cursor-pointer hover:border-primary transition-colors" onClick={() => setActiveSection('ai-chat')}>
+                    <Card className="cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300 hover:border-pink-500" onClick={() => setActiveSection('ai-chat')}>
                       <CardHeader>
-                        <MessageSquare className="h-8 w-8 mb-2 text-primary" />
+                        <MessageSquare className="h-8 w-8 mb-2 text-pink-600" />
                         <CardTitle>AI Chat System</CardTitle>
                         <CardDescription>
-                          Real-time AI assistant powered by Groq with context-aware responses.
+                          Real-time AI assistant powered by{' '}
+                          <span className="font-semibold text-pink-600">Groq</span> with{' '}
+                          <span className="font-semibold text-purple-600">context-aware responses</span>.
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <Button variant="link" className="p-0">Read more →</Button>
+                        <Button variant="link" className="p-0 text-pink-600 hover:text-pink-700">Read more →</Button>
                       </CardContent>
                     </Card>
 
-                    <Card className="cursor-pointer hover:border-primary transition-colors" onClick={() => setActiveSection('security')}>
+                    <Card className="cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300 hover:border-green-500" onClick={() => setActiveSection('security')}>
                       <CardHeader>
-                        <Shield className="h-8 w-8 mb-2 text-primary" />
+                        <Shield className="h-8 w-8 mb-2 text-green-600" />
                         <CardTitle>Security Implementation</CardTitle>
                         <CardDescription>
-                          95/100 security score with OWASP compliance and advanced threat detection.
+                          <span className="font-semibold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">95/100 security score</span> with{' '}
+                          <span className="font-semibold text-green-600">OWASP compliance</span> and advanced threat detection.
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <Button variant="link" className="p-0">Read more →</Button>
+                        <Button variant="link" className="p-0 text-green-600 hover:text-green-700">Read more →</Button>
                       </CardContent>
                     </Card>
                   </div>
