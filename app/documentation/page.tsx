@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+// Portfolio Documentation - Clean sidebar navigation
 const sections = [
   { id: 'overview', title: 'Overview' },
   { id: 'auth', title: 'Authentication' },
