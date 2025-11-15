@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Shield, Lock, Activity, CheckCircle2, AlertTriangle, Download, ExternalLink, TrendingUp, Users, Zap, FileText, ArrowLeft, Home, MessageSquare } from "lucide-react"
 import Link from "next/link"
 import type { Metadata } from "next"
-import { currentUser } from "@clerk/nextjs/server"
+import { currentUser, clerkClient } from "@clerk/nextjs/server"
 import { AccessDenied } from "@/components/common"
 
 export const metadata: Metadata = {
@@ -31,6 +31,10 @@ export default async function SecurityPage() {
   if (role !== 'admin') {
     return <AccessDenied />
   }
+
+  // Fetch real user count from Clerk
+  const { data: users } = await clerkClient.users.getUserList()
+  const userCount = users.length
 
   return (
     <div className="min-h-screen bg-background py-6 px-4 sm:px-6 lg:px-8">
@@ -141,7 +145,7 @@ export default async function SecurityPage() {
         {/* Security Metrics */}
         <Card className="p-6 mb-6">
           <h2 className="text-lg font-bold mb-4">Security Metrics & Performance</h2>
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
             <div className="border border-border rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
               <TrendingUp className="h-6 w-6 text-foreground/70 mx-auto mb-2" />
               <div className="text-2xl font-bold mb-1">8</div>
@@ -149,13 +153,8 @@ export default async function SecurityPage() {
             </div>
             <div className="border border-border rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
               <Users className="h-6 w-6 text-foreground/70 mx-auto mb-2" />
-              <div className="text-2xl font-bold mb-1">50+</div>
+              <div className="text-2xl font-bold mb-1">{userCount}</div>
               <div className="text-xs text-muted-foreground">Authenticated Users</div>
-            </div>
-            <div className="border border-border rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
-              <Zap className="h-6 w-6 text-foreground/70 mx-auto mb-2" />
-              <div className="text-2xl font-bold mb-1">&lt;200ms</div>
-              <div className="text-xs text-muted-foreground">Avg Response Time</div>
             </div>
           </div>
         </Card>
