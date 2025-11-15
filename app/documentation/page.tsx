@@ -2,577 +2,589 @@
 
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Shield, Sparkles, MessageSquare, TestTube, Github, Database, Lock, FileText } from 'lucide-react';
-import Link from 'next/link';
-
-const sections = [
-  {
-    id: 'overview',
-    title: 'Overview',
-    icon: FileText,
-  },
-  {
-    id: 'authentication',
-    title: 'Authentication & Security',
-    icon: Lock,
-  },
-  {
-    id: 'features',
-    title: 'Advanced Features',
-    icon: Sparkles,
-  },
-  {
-    id: 'ai-chat',
-    title: 'AI Chat System',
-    icon: MessageSquare,
-  },
-  {
-    id: 'security',
-    title: 'Security Implementation',
-    icon: Shield,
-  },
-  {
-    id: 'testing',
-    title: 'Testing & Quality',
-    icon: TestTube,
-  },
-  {
-    id: 'repositories',
-    title: 'GitHub Repository',
-    icon: Github,
-  },
-];
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Code, Shield, Zap, Brain, Lock, Bell, Eye, Database } from 'lucide-react';
 
 export default function DocumentationPage() {
-  const [activeSection, setActiveSection] = useState('overview');
-
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
-        <div className="space-y-8">
-          {/* Header */}
-          <div className="text-center space-y-4">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Documentation
-            </h1>
-            <p className="text-muted-foreground max-w-3xl mx-auto">
-              Comprehensive technical documentation for my portfolio system featuring <span className="font-semibold text-blue-600">advanced security</span>,{' '}
-              <span className="font-semibold text-purple-600">AI integration</span>, and{' '}
-              <span className="font-semibold text-pink-600">modern web technologies</span>.
-            </p>
-            <Link href="/">
-              <Button variant="outline">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Portfolio
-              </Button>
-            </Link>
-          </div>
+    <div className="min-h-screen py-20 px-4">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Portfolio System Documentation
+          </h1>
+          <p className="text-muted-foreground text-lg">
+            Complete guide to the technologies, features, and implementation details
+          </p>
+        </div>
 
-          {/* Horizontal Navigation Tabs */}
-          <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide">
-            {sections.map((section) => {
-              const Icon = section.icon;
-              return (
-                <button
-                  key={section.id}
-                  onClick={() => setActiveSection(section.id)}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-300 flex-shrink-0 ${
-                    activeSection === section.id
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg scale-105'
-                      : 'bg-muted hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 hover:text-white hover:shadow-md hover:scale-105'
-                  }`}
-                >
-                  <Icon className="h-4 w-4" />
-                  <span>{section.title}</span>
-                </button>
-              );
-            })}
-          </div>
+        {/* Tabs */}
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:grid-cols-8 mb-8">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="auth">Authentication</TabsTrigger>
+            <TabsTrigger value="security">Security</TabsTrigger>
+            <TabsTrigger value="ai">AI Chat</TabsTrigger>
+            <TabsTrigger value="database">Database</TabsTrigger>
+            <TabsTrigger value="features">Features</TabsTrigger>
+            <TabsTrigger value="deployment">Deployment</TabsTrigger>
+            <TabsTrigger value="api">API Routes</TabsTrigger>
+          </TabsList>
 
-          {/* Main Content */}
-          <div className="max-w-5xl mx-auto">
-            <div className="space-y-8">
-              {activeSection === 'overview' && (
-                <div className="space-y-6">
-                  <Card className="hover:shadow-xl transition-shadow duration-300">
-                    <CardHeader>
-                      <CardTitle className="text-2xl">About This Portfolio</CardTitle>
-                      <CardDescription>
-                        A production-ready{' '}
-                        <span className="font-semibold text-blue-600">Next.js 14</span> portfolio featuring{' '}
-                        <span className="font-semibold text-purple-600">advanced security</span>,{' '}
-                        <span className="font-semibold text-pink-600">AI-powered chat</span>, and{' '}
-                        <span className="font-semibold text-green-600">role-based access control</span>.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="hover:scale-105 transition-transform duration-300">
-                        <h3 className="font-semibold mb-2 text-blue-600">Framework</h3>
-                        <p className="text-sm text-muted-foreground">Next.js 14 with App Router</p>
-                      </div>
-                      <div className="hover:scale-105 transition-transform duration-300">
-                        <h3 className="font-semibold mb-2 text-purple-600">AI Model</h3>
-                        <p className="text-sm text-muted-foreground">Groq AI (llama-3.1-8b-instant)</p>
-                      </div>
-                      <div className="hover:scale-105 transition-transform duration-300">
-                        <h3 className="font-semibold mb-2 text-pink-600">Database</h3>
-                        <p className="text-sm text-muted-foreground">Neon PostgreSQL</p>
-                      </div>
-                      <div className="hover:scale-105 transition-transform duration-300">
-                        <h3 className="font-semibold mb-2 text-green-600">Deployment</h3>
-                        <p className="text-sm text-muted-foreground">Vercel Edge</p>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Card className="cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300 hover:border-blue-500" onClick={() => setActiveSection('authentication')}>
-                      <CardHeader>
-                        <Lock className="h-8 w-8 mb-2 text-blue-600" />
-                        <CardTitle>Authentication & Security</CardTitle>
-                        <CardDescription>
-                          <span className="font-semibold text-blue-600">Clerk OAuth</span> integration,{' '}
-                          <span className="font-semibold text-purple-600">RBAC system</span>, and admin dashboard implementation.
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <Button variant="link" className="p-0 text-blue-600 hover:text-blue-700">Read more →</Button>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300 hover:border-purple-500" onClick={() => setActiveSection('features')}>
-                      <CardHeader>
-                        <Sparkles className="h-8 w-8 mb-2 text-purple-600" />
-                        <CardTitle>Advanced Features</CardTitle>
-                        <CardDescription>
-                          <span className="font-semibold text-purple-600">Intrusion Detection System</span>,{' '}
-                          <span className="font-semibold text-pink-600">CSP violation tracking</span>, and security notifications.
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <Button variant="link" className="p-0 text-purple-600 hover:text-purple-700">Read more →</Button>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300 hover:border-pink-500" onClick={() => setActiveSection('ai-chat')}>
-                      <CardHeader>
-                        <MessageSquare className="h-8 w-8 mb-2 text-pink-600" />
-                        <CardTitle>AI Chat System</CardTitle>
-                        <CardDescription>
-                          Real-time AI assistant powered by{' '}
-                          <span className="font-semibold text-pink-600">Groq</span> with{' '}
-                          <span className="font-semibold text-purple-600">context-aware responses</span>.
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <Button variant="link" className="p-0 text-pink-600 hover:text-pink-700">Read more →</Button>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300 hover:border-green-500" onClick={() => setActiveSection('security')}>
-                      <CardHeader>
-                        <Shield className="h-8 w-8 mb-2 text-green-600" />
-                        <CardTitle>Security Implementation</CardTitle>
-                        <CardDescription>
-                          <span className="font-semibold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">95/100 security score</span> with{' '}
-                          <span className="font-semibold text-green-600">OWASP compliance</span> and advanced threat detection.
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <Button variant="link" className="p-0 text-green-600 hover:text-green-700">Read more →</Button>
-                      </CardContent>
-                    </Card>
+          {/* Overview Tab */}
+          <TabsContent value="overview">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Code className="h-5 w-5" />
+                  Tech Stack Overview
+                </CardTitle>
+                <CardDescription>Modern technologies powering this portfolio</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div>
+                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                    Frontend Framework
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Badge>Next.js 14</Badge>
+                      <span className="text-sm text-muted-foreground">React framework with App Router</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge>TypeScript</Badge>
+                      <span className="text-sm text-muted-foreground">Type-safe JavaScript</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge>Tailwind CSS</Badge>
+                      <span className="text-sm text-muted-foreground">Utility-first CSS framework</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge>shadcn/ui</Badge>
+                      <span className="text-sm text-muted-foreground">Beautiful UI components</span>
+                    </div>
                   </div>
                 </div>
-              )}
 
-              {/* Authentication Section */}
-              {activeSection === 'authentication' && (
-                <div className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Authentication & Security</CardTitle>
-                      <CardDescription>
-                        Comprehensive authentication system using Clerk with role-based access control.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div>
-                        <h3 className="font-semibold mb-2">Clerk OAuth Integration</h3>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Secure authentication with multiple OAuth providers and magic link support.
-                        </p>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li>Google OAuth integration</li>
-                          <li>GitHub OAuth integration</li>
-                          <li>Passwordless magic links</li>
-                          <li>Session management with automatic refresh</li>
-                        </ul>
-                      </div>
-
-                      <div>
-                        <h3 className="font-semibold mb-2">Role-Based Access Control (RBAC)</h3>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Granular permission system with admin and user roles.
-                        </p>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li>Admin role with full access to security dashboard</li>
-                          <li>User role for general portfolio access</li>
-                          <li>Middleware-level protection for admin routes</li>
-                          <li>Server-side authentication checks</li>
-                        </ul>
-                      </div>
-
-                      <div>
-                        <h3 className="font-semibold mb-2">Implementation Details</h3>
-                        <div className="bg-muted p-4 rounded-lg">
-                          <code className="text-sm">
-                            <pre>{`// middleware.ts
-import { clerkMiddleware } from '@clerk/nextjs/server';
-
-export default clerkMiddleware();
-
-// Protected route check
-const { userId, sessionClaims } = await auth();
-const isAdmin = sessionClaims?.metadata?.role === 'admin';`}</pre>
-                          </code>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                <div>
+                  <h3 className="font-semibold mb-3">Backend & APIs</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary">Next.js API Routes</Badge>
+                      <span className="text-sm text-muted-foreground">Serverless functions</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary">Groq AI API</Badge>
+                      <span className="text-sm text-muted-foreground">AI chat integration</span>
+                    </div>
+                  </div>
                 </div>
-              )}
 
-              {/* Advanced Features Section */}
-              {activeSection === 'features' && (
-                <div className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Advanced Features</CardTitle>
-                      <CardDescription>
-                        Cutting-edge security and monitoring features for production environments.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div>
-                        <h3 className="font-semibold mb-2">Intrusion Detection System (IDS)</h3>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Real-time threat detection with automatic IP blocking.
-                        </p>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li>Failed login attempt tracking (5 attempt threshold)</li>
-                          <li>Rate limiting (50 requests/minute)</li>
-                          <li>Threat scoring system (0-100 scale)</li>
-                          <li>Automatic IP blocking for scores ≥80</li>
-                          <li>Real-time security event monitoring</li>
-                        </ul>
-                      </div>
-
-                      <div>
-                        <h3 className="font-semibold mb-2">CSP Violation Tracking</h3>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Content Security Policy monitoring to detect XSS attempts.
-                        </p>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li>Tracks all CSP violations in real-time</li>
-                          <li>XSS attempt detection and logging</li>
-                          <li>Violation statistics and analytics</li>
-                          <li>Integration with security dashboard</li>
-                        </ul>
-                      </div>
-
-                      <div>
-                        <h3 className="font-semibold mb-2">Security Notifications</h3>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Automated alert system for critical security events.
-                        </p>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li>Email notifications for high-severity threats</li>
-                          <li>Admin dashboard alerts</li>
-                          <li>Configurable notification thresholds</li>
-                          <li>Event categorization and priority levels</li>
-                        </ul>
-                      </div>
-                    </CardContent>
-                  </Card>
+                <div>
+                  <h3 className="font-semibold mb-3">Deployment</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline">Vercel</Badge>
+                      <span className="text-sm text-muted-foreground">Automatic deployments from GitHub</span>
+                    </div>
+                  </div>
                 </div>
-              )}
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-              {/* AI Chat Section */}
-              {activeSection === 'ai-chat' && (
-                <div className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>AI Chat System</CardTitle>
-                      <CardDescription>
-                        Intelligent portfolio assistant powered by Groq AI with real-time responses.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div>
-                        <h3 className="font-semibold mb-2">Technology Stack</h3>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li><strong>Production:</strong> Groq AI with llama-3.1-8b-instant model</li>
-                          <li><strong>Development:</strong> Ollama with llama3.2 for local testing</li>
-                          <li><strong>Context Engine:</strong> Portfolio knowledge base system</li>
-                          <li><strong>Streaming:</strong> Real-time response streaming</li>
-                        </ul>
-                      </div>
-
-                      <div>
-                        <h3 className="font-semibold mb-2">How It Works</h3>
-                        <div className="space-y-3">
-                          <div className="flex items-start gap-3">
-                            <div className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold flex-shrink-0">1</div>
-                            <div>
-                              <p className="text-sm font-medium">User asks a question</p>
-                              <p className="text-xs text-muted-foreground">Question sent to /api/chat endpoint</p>
-                            </div>
-                          </div>
-                          <div className="flex items-start gap-3">
-                            <div className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold flex-shrink-0">2</div>
-                            <div>
-                              <p className="text-sm font-medium">Context injection</p>
-                              <p className="text-xs text-muted-foreground">Portfolio data added to AI prompt</p>
-                            </div>
-                          </div>
-                          <div className="flex items-start gap-3">
-                            <div className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold flex-shrink-0">3</div>
-                            <div>
-                              <p className="text-sm font-medium">AI generates response</p>
-                              <p className="text-xs text-muted-foreground">Groq processes with llama-3.1-8b-instant</p>
-                            </div>
-                          </div>
-                          <div className="flex items-start gap-3">
-                            <div className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold flex-shrink-0">4</div>
-                            <div>
-                              <p className="text-sm font-medium">Stream to user</p>
-                              <p className="text-xs text-muted-foreground">Real-time response streaming for better UX</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h3 className="font-semibold mb-2">Features</h3>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li>First-person conversational responses</li>
-                          <li>Context-aware follow-up questions</li>
-                          <li>Portfolio-focused knowledge base</li>
-                          <li>Easter egg responses for fun interactions</li>
-                          <li>Suggested quick questions</li>
-                          <li>Chat history persistence</li>
-                        </ul>
-                      </div>
-
-                      <div>
-                        <h3 className="font-semibold mb-2">Why Not Hardcoded?</h3>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          The AI generates dynamic responses using Large Language Model technology:
-                        </p>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li>Each response is uniquely generated based on the question</li>
-                          <li>Can combine information from multiple portfolio sections</li>
-                          <li>Understands context and follow-up questions</li>
-                          <li>Responds naturally in conversational first-person</li>
-                          <li>Only easter eggs (Niño Marcos, Jan Cabe) are pre-defined jokes</li>
-                        </ul>
-                      </div>
-                    </CardContent>
-                  </Card>
+          {/* Authentication Tab */}
+          <TabsContent value="auth">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Lock className="h-5 w-5" />
+                  Clerk Authentication
+                </CardTitle>
+                <CardDescription>OAuth and passwordless authentication system</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div>
+                  <h3 className="font-semibold mb-3">Authentication Methods</h3>
+                  <ul className="space-y-2 list-disc list-inside text-sm">
+                    <li>OAuth providers (Google, GitHub)</li>
+                    <li>Magic link email authentication</li>
+                    <li>Passwordless sign-in</li>
+                    <li>Session management</li>
+                  </ul>
                 </div>
-              )}
 
-              {/* Security Section */}
-              {activeSection === 'security' && (
-                <div className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Security Implementation</CardTitle>
-                      <CardDescription>
-                        Achieved 95/100 security score with OWASP compliance and industry best practices.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div>
-                        <h3 className="font-semibold mb-2">Security Score: 95/100</h3>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Comprehensive security implementation following OWASP Top 10 guidelines.
-                        </p>
-                      </div>
-
-                      <div>
-                        <h3 className="font-semibold mb-2">Security Features</h3>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li><strong>Authentication:</strong> Clerk OAuth with session management</li>
-                          <li><strong>Authorization:</strong> RBAC with admin/user roles</li>
-                          <li><strong>Rate Limiting:</strong> 50 requests/minute per IP</li>
-                          <li><strong>XSS Protection:</strong> CSP headers and violation tracking</li>
-                          <li><strong>CSRF Protection:</strong> Token-based form protection</li>
-                          <li><strong>SQL Injection:</strong> Parameterized queries with Neon</li>
-                          <li><strong>IDS:</strong> Real-time intrusion detection and blocking</li>
-                          <li><strong>HTTPS:</strong> Enforced SSL/TLS encryption</li>
-                        </ul>
-                      </div>
-
-                      <div>
-                        <h3 className="font-semibold mb-2">Admin Security Dashboard</h3>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Real-time monitoring interface at <code>/admin/security</code> (admin only)
-                        </p>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li>Security events timeline</li>
-                          <li>Blocked IPs and threat scores</li>
-                          <li>CSP violation logs</li>
-                          <li>Security statistics and analytics</li>
-                        </ul>
-                      </div>
-
-                      <div>
-                        <h3 className="font-semibold mb-2">OWASP Top 10 Coverage</h3>
-                        <div className="grid grid-cols-2 gap-2 text-sm">
-                          <div className="flex items-center gap-2">
-                            <span className="text-green-500">✓</span>
-                            <span className="text-muted-foreground">Broken Access Control</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-green-500">✓</span>
-                            <span className="text-muted-foreground">Cryptographic Failures</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-green-500">✓</span>
-                            <span className="text-muted-foreground">Injection</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-green-500">✓</span>
-                            <span className="text-muted-foreground">Insecure Design</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-green-500">✓</span>
-                            <span className="text-muted-foreground">Security Misconfiguration</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-green-500">✓</span>
-                            <span className="text-muted-foreground">Vulnerable Components</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-green-500">✓</span>
-                            <span className="text-muted-foreground">Authentication Failures</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-green-500">✓</span>
-                            <span className="text-muted-foreground">Data Integrity Failures</span>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                <div>
+                  <h3 className="font-semibold mb-3">Role-Based Access Control (RBAC)</h3>
+                  <div className="space-y-2">
+                    <div className="p-3 bg-muted rounded-lg">
+                      <p className="font-medium text-sm">Admin Role</p>
+                      <p className="text-xs text-muted-foreground">Access to admin dashboard, security center, MCP integration</p>
+                    </div>
+                    <div className="p-3 bg-muted rounded-lg">
+                      <p className="font-medium text-sm">User Role</p>
+                      <p className="text-xs text-muted-foreground">Portfolio viewing, AI chat, contact form</p>
+                    </div>
+                  </div>
                 </div>
-              )}
 
-              {/* Testing Section */}
-              {activeSection === 'testing' && (
-                <div className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Testing & Quality Assurance</CardTitle>
-                      <CardDescription>
-                        Comprehensive testing strategy for security and functionality.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div>
-                        <h3 className="font-semibold mb-2">Security Testing</h3>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li>OWASP ZAP vulnerability scanning</li>
-                          <li>Penetration testing methodologies</li>
-                          <li>SQL injection testing</li>
-                          <li>XSS attack simulation</li>
-                          <li>CSRF token validation</li>
-                          <li>Rate limiting verification</li>
-                        </ul>
-                      </div>
+                <div>
+                  <h3 className="font-semibold mb-3">Implementation</h3>
+                  <div className="bg-black text-green-400 p-4 rounded-lg font-mono text-xs overflow-x-auto">
+                    <pre>{`import { auth } from '@clerk/nextjs';
 
-                      <div>
-                        <h3 className="font-semibold mb-2">Manual Testing</h3>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li>Authentication flow testing</li>
-                          <li>RBAC permission verification</li>
-                          <li>AI chat response quality checks</li>
-                          <li>Cross-browser compatibility</li>
-                          <li>Mobile responsiveness</li>
-                        </ul>
-                      </div>
+// Server-side authentication check
+const { userId, sessionClaims } = auth();
+const userRole = sessionClaims?.metadata?.role;
 
-                      <div>
-                        <h3 className="font-semibold mb-2">Performance Optimization</h3>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li>Lighthouse performance audits</li>
-                          <li>Next.js build optimization</li>
-                          <li>Image optimization with next/image</li>
-                          <li>Code splitting and lazy loading</li>
-                          <li>API response caching</li>
-                        </ul>
-                      </div>
-                    </CardContent>
-                  </Card>
+// Protected route example
+if (!userId || userRole !== 'admin') {
+  return <AccessDenied />;
+}`}</pre>
+                  </div>
                 </div>
-              )}
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-              {/* Repository Section */}
-              {activeSection === 'repositories' && (
-                <div className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>GitHub Repository</CardTitle>
-                      <CardDescription>
-                        Access the complete source code and project documentation.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div>
-                        <h3 className="font-semibold mb-2">Repository Information</h3>
-                        <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                          <li><strong>Repository:</strong> week9-finalizing</li>
-                          <li><strong>Owner:</strong> rodwinvicquerra</li>
-                          <li><strong>Tech Stack:</strong> Next.js 14, TypeScript, Tailwind CSS</li>
-                          <li><strong>Deployment:</strong> Automatic deployment via Vercel</li>
-                        </ul>
-                      </div>
-
-                      <div>
-                        <h3 className="font-semibold mb-2">Key Files & Directories</h3>
-                        <div className="bg-muted p-4 rounded-lg text-sm font-mono">
-                          <div className="space-y-1">
-                            <div>📁 app/ - Next.js 14 app directory</div>
-                            <div className="ml-4">📁 api/chat/ - AI chat API route</div>
-                            <div className="ml-4">📁 admin/security/ - Security dashboard</div>
-                            <div>📁 components/ - React components</div>
-                            <div className="ml-4">📁 chat/ - AI chat widget</div>
-                            <div>📁 lib/ - Utilities and helpers</div>
-                            <div className="ml-4">📄 portfolio-context.ts - AI knowledge base</div>
-                            <div className="ml-4">📄 security/ids.ts - Intrusion detection</div>
-                            <div>📄 middleware.ts - Auth & security middleware</div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <Button asChild className="w-full">
-                          <a href="https://github.com/rodwinvicquerra/week9-finalizing" target="_blank" rel="noopener noreferrer">
-                            <Github className="h-4 w-4 mr-2" />
-                            View on GitHub
-                          </a>
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
+          {/* Security Tab */}
+          <TabsContent value="security">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="h-5 w-5" />
+                  Advanced Security Features
+                </CardTitle>
+                <CardDescription>95/100 security score with OWASP compliance</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div>
+                  <h3 className="font-semibold mb-3">1. Intrusion Detection System (IDS)</h3>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-500 font-bold">•</span>
+                      <span>Real-time threat detection and scoring (0-100)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-500 font-bold">•</span>
+                      <span>Failed login attempt tracking (5 attempt threshold)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-500 font-bold">•</span>
+                      <span>Rate limiting (50 requests/minute)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-500 font-bold">•</span>
+                      <span>Automatic IP blocking (threat score ≥80)</span>
+                    </li>
+                  </ul>
                 </div>
-              )}
-            </div>
-          </div>
-        </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">2. Content Security Policy (CSP) Reporter</h3>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-500 font-bold">•</span>
+                      <span>XSS attack detection</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-500 font-bold">•</span>
+                      <span>CSP violation tracking</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-500 font-bold">•</span>
+                      <span>Real-time security event logging</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">3. Security Notifications</h3>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-500 font-bold">•</span>
+                      <span>Email alerts for critical threats</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-500 font-bold">•</span>
+                      <span>Admin dashboard notifications</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-500 font-bold">•</span>
+                      <span>Webhook integration ready</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">4. Security Operations Center</h3>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Admin-only dashboard at <code className="bg-muted px-1 rounded">/admin/security</code>
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="p-2 bg-muted rounded text-xs">
+                      <p className="font-medium">Security Events</p>
+                      <p className="text-muted-foreground">Real-time monitoring</p>
+                    </div>
+                    <div className="p-2 bg-muted rounded text-xs">
+                      <p className="font-medium">Threat Analysis</p>
+                      <p className="text-muted-foreground">IP tracking & scoring</p>
+                    </div>
+                    <div className="p-2 bg-muted rounded text-xs">
+                      <p className="font-medium">CSP Reports</p>
+                      <p className="text-muted-foreground">Violation tracking</p>
+                    </div>
+                    <div className="p-2 bg-muted rounded text-xs">
+                      <p className="font-medium">Statistics</p>
+                      <p className="text-muted-foreground">Security metrics</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* AI Chat Tab */}
+          <TabsContent value="ai">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Brain className="h-5 w-5" />
+                  AI Chat Integration
+                </CardTitle>
+                <CardDescription>Conversational AI powered by Groq</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div>
+                  <h3 className="font-semibold mb-3">AI Model</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Badge>Groq API</Badge>
+                      <span className="text-sm text-muted-foreground">llama-3.1-8b-instant model</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary">Ollama (Fallback)</Badge>
+                      <span className="text-sm text-muted-foreground">llama3.2 for local development</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Features</h3>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start gap-2">
+                      <Zap className="h-4 w-4 text-yellow-500 mt-0.5" />
+                      <span>Real-time AI responses (not hardcoded!)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Brain className="h-4 w-4 text-purple-500 mt-0.5" />
+                      <span>Context-aware conversations with portfolio knowledge</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Code className="h-4 w-4 text-blue-500 mt-0.5" />
+                      <span>First-person conversational responses</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Eye className="h-4 w-4 text-green-500 mt-0.5" />
+                      <span>Suggested questions for quick access</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">How It Works</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold flex-shrink-0">1</div>
+                      <div>
+                        <p className="text-sm font-medium">User asks a question</p>
+                        <p className="text-xs text-muted-foreground">Question sent to /api/chat endpoint</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold flex-shrink-0">2</div>
+                      <div>
+                        <p className="text-sm font-medium">Context injection</p>
+                        <p className="text-xs text-muted-foreground">Portfolio context added to the prompt</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold flex-shrink-0">3</div>
+                      <div>
+                        <p className="text-sm font-medium">AI generates response</p>
+                        <p className="text-xs text-muted-foreground">Groq API processes and returns natural answer</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold flex-shrink-0">4</div>
+                      <div>
+                        <p className="text-sm font-medium">Response displayed</p>
+                        <p className="text-xs text-muted-foreground">Conversational answer shown to user</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Easter Eggs</h3>
+                  <p className="text-xs text-muted-foreground mb-2">Fun responses for friends (these ARE hardcoded 😄):</p>
+                  <div className="space-y-2">
+                    <div className="p-2 bg-muted rounded text-xs">
+                      <p className="font-medium">"Who is Niño Marcos?"</p>
+                      <p className="text-muted-foreground">Full-stack developer, lover boy, cybersecurity pro - the GOAT!</p>
+                    </div>
+                    <div className="p-2 bg-muted rounded text-xs">
+                      <p className="font-medium">"Who is Jan Cabe?"</p>
+                      <p className="text-muted-foreground">Millionaire programmer in the Philippines!</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Database Tab */}
+          <TabsContent value="database">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Database className="h-5 w-5" />
+                  Database Setup
+                </CardTitle>
+                <CardDescription>PostgreSQL with Neon serverless</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div>
+                  <h3 className="font-semibold mb-3">Database Provider</h3>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Badge>Neon PostgreSQL</Badge>
+                    <span className="text-sm text-muted-foreground">Serverless Postgres</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Ready for future features like contact form submissions, analytics, and user feedback.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Connection Setup</h3>
+                  <div className="bg-black text-green-400 p-4 rounded-lg font-mono text-xs overflow-x-auto">
+                    <pre>{`// lib/neon.ts
+import { neon } from '@neondatabase/serverless';
+
+const sql = neon(process.env.POSTGRES_URL!);
+
+export { sql };`}</pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Environment Variable</h3>
+                  <div className="bg-muted p-3 rounded text-xs font-mono">
+                    POSTGRES_URL=postgresql://user:password@host/database
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Set in Vercel environment variables for production
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Features Tab */}
+          <TabsContent value="features">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Zap className="h-5 w-5" />
+                  Advanced Features
+                </CardTitle>
+                <CardDescription>What makes this portfolio special</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <Shield className="h-4 w-4 text-blue-500" />
+                      Security First
+                    </h4>
+                    <p className="text-sm text-muted-foreground">95/100 security score with IDS, CSP tracking, and OWASP compliance</p>
+                  </div>
+
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <Brain className="h-4 w-4 text-purple-500" />
+                      AI Integration
+                    </h4>
+                    <p className="text-sm text-muted-foreground">Real-time AI chat with context-aware responses using Groq API</p>
+                  </div>
+
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <Lock className="h-4 w-4 text-green-500" />
+                      RBAC System
+                    </h4>
+                    <p className="text-sm text-muted-foreground">Role-based access control with admin and user permissions</p>
+                  </div>
+
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <Bell className="h-4 w-4 text-orange-500" />
+                      Real-time Monitoring
+                    </h4>
+                    <p className="text-sm text-muted-foreground">Security Operations Center with live threat detection</p>
+                  </div>
+
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <Eye className="h-4 w-4 text-pink-500" />
+                      Dark/Light Mode
+                    </h4>
+                    <p className="text-sm text-muted-foreground">Seamless theme switching with system preference detection</p>
+                  </div>
+
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <Code className="h-4 w-4 text-yellow-500" />
+                      Modern UI/UX
+                    </h4>
+                    <p className="text-sm text-muted-foreground">Beautiful components with Tailwind CSS and shadcn/ui</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Deployment Tab */}
+          <TabsContent value="deployment">
+            <Card>
+              <CardHeader>
+                <CardTitle>Vercel Deployment</CardTitle>
+                <CardDescription>Automatic deployments from GitHub</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div>
+                  <h3 className="font-semibold mb-3">Deployment Process</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-start gap-2">
+                      <span className="text-blue-500">1.</span>
+                      <span>Push code to GitHub repository</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-blue-500">2.</span>
+                      <span>Vercel automatically detects changes</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-blue-500">3.</span>
+                      <span>Builds Next.js application</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-blue-500">4.</span>
+                      <span>Deploys to production in seconds</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Environment Variables</h3>
+                  <div className="space-y-2 text-xs font-mono bg-muted p-3 rounded">
+                    <p>NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY</p>
+                    <p>CLERK_SECRET_KEY</p>
+                    <p>GROQ_API_KEY</p>
+                    <p>POSTGRES_URL</p>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Build Configuration</h3>
+                  <div className="bg-black text-green-400 p-4 rounded-lg font-mono text-xs overflow-x-auto">
+                    <pre>{`// vercel.json
+{
+  "buildCommand": "pnpm run build",
+  "devCommand": "pnpm run dev",
+  "framework": "nextjs"
+}`}</pre>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* API Routes Tab */}
+          <TabsContent value="api">
+            <Card>
+              <CardHeader>
+                <CardTitle>API Routes</CardTitle>
+                <CardDescription>Server-side endpoints and functions</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div>
+                  <h3 className="font-semibold mb-3">Available Endpoints</h3>
+                  <div className="space-y-3">
+                    <div className="p-3 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge variant="outline">POST</Badge>
+                        <code className="text-sm">/api/chat</code>
+                      </div>
+                      <p className="text-xs text-muted-foreground">AI chat endpoint - sends messages to Groq API</p>
+                    </div>
+
+                    <div className="p-3 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge variant="outline">POST</Badge>
+                        <code className="text-sm">/api/contact</code>
+                      </div>
+                      <p className="text-xs text-muted-foreground">Contact form submission handler</p>
+                    </div>
+
+                    <div className="p-3 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge variant="outline">POST</Badge>
+                        <code className="text-sm">/api/security/csp-report</code>
+                      </div>
+                      <p className="text-xs text-muted-foreground">CSP violation reporting endpoint</p>
+                    </div>
+
+                    <div className="p-3 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge variant="outline">GET</Badge>
+                        <code className="text-sm">/api/security/dashboard</code>
+                      </div>
+                      <p className="text-xs text-muted-foreground">Security metrics and events (admin only)</p>
+                    </div>
+
+                    <div className="p-3 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge variant="outline">GET</Badge>
+                        <code className="text-sm">/api/admin/users</code>
+                      </div>
+                      <p className="text-xs text-muted-foreground">User management endpoint (admin only)</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Example API Call</h3>
+                  <div className="bg-black text-green-400 p-4 rounded-lg font-mono text-xs overflow-x-auto">
+                    <pre>{`// Example: AI Chat API
+const response = await fetch('/api/chat', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    message: 'What are your skills?',
+    history: previousMessages
+  })
+});
+
+const data = await response.json();
+console.log(data.response); // AI generated answer`}</pre>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
