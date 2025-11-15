@@ -10,12 +10,13 @@ import {
   EducationSection,
   ContactSection
 } from "@/components/sections"
-import { useAuth } from "@clerk/nextjs"
+import { useAuth, useClerk } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 export default function PortfolioPage() {
   const { isSignedIn, isLoaded } = useAuth()
+  const { signOut } = useClerk()
   const router = useRouter()
 
   useEffect(() => {
@@ -23,6 +24,19 @@ export default function PortfolioPage() {
       router.replace("/sign-in")
     }
   }, [isLoaded, isSignedIn, router])
+
+  // Prevent back button navigation - auto logout on back
+  useEffect(() => {
+    const handlePopState = async () => {
+      if (isSignedIn) {
+        await signOut()
+        router.replace("/sign-in")
+      }
+    }
+
+    window.addEventListener("popstate", handlePopState)
+    return () => window.removeEventListener("popstate", handlePopState)
+  }, [isSignedIn, signOut, router])
 
   if (!isLoaded) {
     return (

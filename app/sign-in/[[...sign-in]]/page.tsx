@@ -50,13 +50,6 @@ export default function SignInPage() {
         </div>
 
         <div className="mx-auto max-w-md">
-          <div className="mb-4 text-center text-sm text-muted-foreground">
-            <span>Don't have an account? </span>
-            <Link href="/sign-up" className="text-primary hover:text-primary/80 underline font-semibold">
-              Sign up
-            </Link>
-          </div>
-
           <div className="rounded-xl border bg-card shadow-lg p-6 md:p-8">
             <SignIn
               afterSignInUrl="/portfolio"
@@ -79,8 +72,9 @@ export default function SignInPage() {
                   rootBox: "mx-auto w-full",
                   card: "border-0 bg-transparent shadow-none",
                   header: "hidden",
-                  formButtonPrimary: 
-                    "bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg h-11 font-medium transition-colors",
+                  formButtonPrimary: isDark
+                    ? "bg-white hover:bg-white/90 text-black rounded-lg h-11 font-medium transition-colors"
+                    : "bg-black hover:bg-black/90 text-white rounded-lg h-11 font-medium transition-colors",
                   formFieldInput: 
                     "rounded-lg border-input bg-background text-foreground h-11",
                   footerAction: "hidden",
