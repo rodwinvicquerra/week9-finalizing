@@ -55,7 +55,7 @@ export default function DocumentationPage() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 max-w-4xl">
+      <main className="flex-1 p-8 max-w-6xl">
         <div className="space-y-8">
           {/* Overview */}
           {activeSection === 'overview' && (
