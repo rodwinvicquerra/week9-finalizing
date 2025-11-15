@@ -13,6 +13,7 @@ const navItems = [
   { name: "Goals", href: "#goals" },
   { name: "Education", href: "#education" },
   { name: "Projects", href: "#projects" },
+  { name: "Documentation", href: "/documentation", isExternal: true },
   { name: "Security", href: "/security", isExternal: true, adminOnly: true },
   { name: "Contact", href: "#contact" },
 ]
