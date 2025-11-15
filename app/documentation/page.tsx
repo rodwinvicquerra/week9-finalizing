@@ -42,16 +42,18 @@ export default function DocumentationPage() {
             <button
               key={section.id}
               onClick={() => setActiveSection(section.id)}
-              className={`w-full text-left px-3 py-2 rounded text-sm transition-colors relative group ${
+              className={`w-full text-left px-3 py-2 rounded text-sm transition-colors relative group overflow-visible ${
                 activeSection === section.id
                   ? 'bg-foreground text-background'
                   : 'hover:bg-muted'
               }`}
             >
-              {section.title}
-              {activeSection !== section.id && (
-                <span className="absolute bottom-1 left-3 w-0 h-[1.5px] bg-foreground group-hover:w-[calc(100%-1.5rem)] transition-all duration-300 ease-out" />
-              )}
+              <span className="relative inline-block">
+                {section.title}
+                {activeSection !== section.id && (
+                  <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-current group-hover:w-full transition-all duration-300 ease-out" />
+                )}
+              </span>
             </button>
           ))}
         </nav>
