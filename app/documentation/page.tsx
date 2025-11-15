@@ -61,30 +61,42 @@ export default function DocumentationPage() {
           {activeSection === 'overview' && (
             <div>
               <h1 className="text-2xl font-bold mb-4">Tech Stack Overview</h1>
+              <p className="mb-6 text-sm text-muted-foreground">Modern technologies and tools powering this portfolio application</p>
               
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-lg font-semibold mb-2">Frontend Framework</h2>
-                  <ul className="space-y-1 ml-4 text-sm">
-                    <li>• Next.js 14 - React framework with App Router</li>
-                    <li>• TypeScript - Type-safe JavaScript</li>
-                    <li>• Tailwind CSS - Utility-first CSS framework</li>
-                    <li>• shadcn/ui - Beautiful UI components</li>
+              <div className="space-y-4">
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">Frontend Framework</h2>
+                  <ul className="space-y-2 ml-4 text-sm">
+                    <li>• <strong>Next.js 14</strong> - React framework with App Router for server-side rendering and optimal performance</li>
+                    <li>• <strong>TypeScript</strong> - Type-safe JavaScript for better code quality and developer experience</li>
+                    <li>• <strong>Tailwind CSS</strong> - Utility-first CSS framework for rapid UI development with consistent design</li>
+                    <li>• <strong>shadcn/ui</strong> - Beautiful, accessible UI components built with Radix UI and Tailwind CSS</li>
                   </ul>
                 </div>
 
-                <div>
-                  <h2 className="text-lg font-semibold mb-2">Backend & APIs</h2>
-                  <ul className="space-y-1 ml-4 text-sm">
-                    <li>• Next.js API Routes - Serverless functions</li>
-                    <li>• Groq AI API - AI chat integration</li>
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">Backend & APIs</h2>
+                  <ul className="space-y-2 ml-4 text-sm">
+                    <li>• <strong>Next.js API Routes</strong> - Serverless functions for backend logic without separate server setup</li>
+                    <li>• <strong>Groq AI API</strong> - Lightning-fast AI inference for real-time chat responses using llama-3.1-8b-instant</li>
+                    <li>• <strong>Clerk Auth</strong> - Complete authentication solution with OAuth, magic links, and session management</li>
                   </ul>
                 </div>
 
-                <div>
-                  <h2 className="text-lg font-semibold mb-2">Deployment</h2>
-                  <ul className="space-y-1 ml-4 text-sm">
-                    <li>• Vercel - Automatic deployments from GitHub</li>
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">Database & Storage</h2>
+                  <ul className="space-y-2 ml-4 text-sm">
+                    <li>• <strong>Neon PostgreSQL</strong> - Serverless Postgres database with branching and instant scaling</li>
+                    <li>• <strong>Edge-compatible</strong> - Optimized for deployment on Vercel's Edge Network</li>
+                  </ul>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">Deployment & DevOps</h2>
+                  <ul className="space-y-2 ml-4 text-sm">
+                    <li>• <strong>Vercel</strong> - Automatic deployments from GitHub with preview environments for every PR</li>
+                    <li>• <strong>Git Version Control</strong> - Source code managed on GitHub with continuous deployment</li>
+                    <li>• <strong>Environment Variables</strong> - Secure configuration management for API keys and secrets</li>
                   </ul>
                 </div>
               </div>
@@ -95,15 +107,16 @@ export default function DocumentationPage() {
           {activeSection === 'auth' && (
             <div>
               <h1 className="text-2xl font-bold mb-4">Clerk Authentication</h1>
+              <p className="mb-6 text-sm text-muted-foreground">Enterprise-grade authentication with OAuth providers and passwordless options</p>
               
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-xl font-semibold mb-3">Authentication Methods</h2>
-                  <ul className="space-y-2 ml-4">
-                    <li>• OAuth providers (Google, GitHub)</li>
-                    <li>• Magic link email authentication</li>
-                    <li>• Passwordless sign-in</li>
-                    <li>• Session management</li>
+                  <h2 className="text-lg font-semibold mb-3">Authentication Methods</h2>
+                  <ul className="space-y-2 ml-4 text-sm">
+                    <li>• <strong>OAuth Providers</strong> - Sign in with Google, GitHub for seamless user onboarding</li>
+                    <li>• <strong>Magic Link Email</strong> - Passwordless authentication via secure email links</li>
+                    <li>• <strong>Session Management</strong> - Automatic token refresh and secure session handling</li>
+                    <li>• <strong>Multi-factor Authentication</strong> - Optional 2FA for enhanced security</li>
                   </ul>
                 </div>
 
@@ -193,33 +206,36 @@ if (!userId || userRole !== 'admin') {
           {activeSection === 'ai' && (
             <div>
               <h1 className="text-2xl font-bold mb-4">AI Chat Integration</h1>
+              <p className="mb-6 text-sm text-muted-foreground">Conversational AI powered by Groq's lightning-fast inference engine</p>
               
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-xl font-semibold mb-3">AI Model</h2>
-                  <ul className="space-y-2 ml-4">
-                    <li>• Groq API - llama-3.1-8b-instant model</li>
-                    <li>• Ollama (Fallback) - llama3.2 for local development</li>
+              <div className="space-y-4">
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">AI Model</h2>
+                  <ul className="space-y-2 ml-4 text-sm">
+                    <li>• <strong>Groq API</strong> - Production AI using llama-3.1-8b-instant model with ultra-low latency</li>
+                    <li>• <strong>Ollama (Fallback)</strong> - llama3.2 for local development and testing without API costs</li>
+                    <li>• <strong>Context Injection</strong> - Portfolio knowledge automatically added to every conversation</li>
                   </ul>
                 </div>
 
-                <div>
-                  <h2 className="text-xl font-semibold mb-3">Features</h2>
-                  <ul className="space-y-2 ml-4">
-                    <li>• Real-time AI responses (not hardcoded!)</li>
-                    <li>• Context-aware conversations with portfolio knowledge</li>
-                    <li>• First-person conversational responses</li>
-                    <li>• Suggested questions for quick access</li>
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">Features</h2>
+                  <ul className="space-y-2 ml-4 text-sm">
+                    <li>• <strong>Real-time Responses</strong> - Dynamically generated answers, not pre-written responses</li>
+                    <li>• <strong>Context-aware Conversations</strong> - AI understands your portfolio, skills, projects, and goals</li>
+                    <li>• <strong>First-person Voice</strong> - Responds as you would, creating authentic interactions</li>
+                    <li>• <strong>Suggested Questions</strong> - Quick-access buttons for common inquiries</li>
+                    <li>• <strong>Chat History</strong> - Conversations saved locally for seamless experience</li>
                   </ul>
                 </div>
 
-                <div>
-                  <h2 className="text-xl font-semibold mb-3">How It Works</h2>
-                  <ol className="space-y-2 ml-4">
-                    <li>1. User asks a question → sent to /api/chat endpoint</li>
-                    <li>2. Portfolio context added to the prompt</li>
-                    <li>3. Groq API processes and returns natural answer</li>
-                    <li>4. Conversational answer shown to user</li>
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">How It Works</h2>
+                  <ol className="space-y-2 ml-4 text-sm">
+                    <li><strong>1. User Input</strong> - Question sent to <code className="bg-muted px-1 rounded text-xs">/api/chat</code> endpoint via POST request</li>
+                    <li><strong>2. Context Injection</strong> - Portfolio context from <code className="bg-muted px-1 rounded text-xs">portfolio-context.ts</code> added to system prompt</li>
+                    <li><strong>3. AI Processing</strong> - Groq API generates natural, conversational response using LLM</li>
+                    <li><strong>4. Response Display</strong> - Answer streamed back to user interface with markdown formatting</li>
                   </ol>
                 </div>
 
@@ -245,14 +261,18 @@ if (!userId || userRole !== 'admin') {
           {activeSection === 'database' && (
             <div>
               <h1 className="text-2xl font-bold mb-4">Database Setup</h1>
+              <p className="mb-6 text-sm text-muted-foreground">Serverless PostgreSQL database with instant scaling and branching capabilities</p>
               
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-xl font-semibold mb-3">Database Provider</h2>
-                  <p className="mb-2">Neon PostgreSQL - Serverless Postgres</p>
-                  <p className="text-sm text-muted-foreground ml-4">
-                    Ready for future features like contact form submissions, analytics, and user feedback.
-                  </p>
+                  <h2 className="text-lg font-semibold mb-3">Database Provider</h2>
+                  <p className="mb-2 font-medium">Neon PostgreSQL - Serverless Postgres</p>
+                  <ul className="space-y-2 ml-4 text-sm">
+                    <li>• <strong>Serverless Architecture</strong> - Automatically scales to zero when idle, reducing costs</li>
+                    <li>• <strong>Instant Branching</strong> - Create database branches for development and testing</li>
+                    <li>• <strong>Edge-compatible</strong> - Works seamlessly with Vercel's Edge Functions</li>
+                    <li>• <strong>Future-ready</strong> - Prepared for contact forms, analytics, user feedback, and more</li>
+                  </ul>
                 </div>
 
                 <div>
@@ -321,38 +341,45 @@ POSTGRES_URL=postgresql://user:password@host/database
           {activeSection === 'deployment' && (
             <div>
               <h1 className="text-2xl font-bold mb-4">Vercel Deployment</h1>
+              <p className="mb-6 text-sm text-muted-foreground">Automatic deployments with zero configuration and global edge network</p>
               
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-xl font-semibold mb-3">Deployment Process</h2>
-                  <ol className="space-y-2 ml-4">
-                    <li>1. Push code to GitHub repository</li>
-                    <li>2. Vercel automatically detects changes</li>
-                    <li>3. Builds Next.js application</li>
-                    <li>4. Deploys to production in seconds</li>
+              <div className="space-y-4">
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">Deployment Process</h2>
+                  <ol className="space-y-2 ml-4 text-sm">
+                    <li><strong>1. Push to GitHub</strong> - Commit and push code changes to main branch</li>
+                    <li><strong>2. Automatic Detection</strong> - Vercel webhook triggers new deployment instantly</li>
+                    <li><strong>3. Build Process</strong> - Next.js application built with optimizations (SSR, static generation)</li>
+                    <li><strong>4. Edge Deployment</strong> - Deployed to 100+ edge locations worldwide in seconds</li>
+                    <li><strong>5. Instant Rollback</strong> - Previous deployments preserved for quick rollback if needed</li>
                   </ol>
                 </div>
 
-                <div>
-                  <h2 className="text-xl font-semibold mb-3">Environment Variables</h2>
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">Environment Variables</h2>
+                  <p className="text-sm text-muted-foreground mb-3">Required environment variables for production deployment:</p>
                   <pre className="bg-muted p-3 rounded text-sm space-y-1">
-{`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-CLERK_SECRET_KEY
-GROQ_API_KEY
-POSTGRES_URL`}
+{`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY  # Clerk public key for client-side
+CLERK_SECRET_KEY                    # Clerk private key for server-side
+GROQ_API_KEY                        # Groq AI API key for chat
+POSTGRES_URL                        # Neon database connection string`}
                   </pre>
+                  <p className="text-xs text-muted-foreground mt-3">• All variables must be set in Vercel project settings</p>
                 </div>
 
-                <div>
-                  <h2 className="text-xl font-semibold mb-3">Build Configuration</h2>
+                <div className="border rounded-lg p-4">
+                  <h2 className="text-lg font-semibold mb-3">Build Configuration</h2>
+                  <p className="text-sm text-muted-foreground mb-3">Vercel automatically detects Next.js. Optional configuration:</p>
                   <pre className="bg-black text-white p-4 rounded overflow-x-auto text-sm">
-{`// vercel.json
+{`// vercel.json (optional)
 {
   "buildCommand": "pnpm run build",
   "devCommand": "pnpm run dev",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "regions": ["iad1"]  // Deploy to specific regions
 }`}
                   </pre>
+                  <p className="text-xs text-muted-foreground mt-3">• Build time: ~1-2 minutes | Deploy time: ~10 seconds</p>
                 </div>
               </div>
             </div>
@@ -362,49 +389,61 @@ POSTGRES_URL`}
           {activeSection === 'api' && (
             <div>
               <h1 className="text-2xl font-bold mb-4">API Routes</h1>
+              <p className="mb-6 text-sm text-muted-foreground">Server-side API endpoints built with Next.js API Routes as serverless functions</p>
               
               <div className="space-y-4">
-                <div className="border p-4">
-                  <p className="font-mono text-sm mb-2">POST /api/chat</p>
-                  <p className="text-sm text-muted-foreground">AI chat endpoint - sends messages to Groq API</p>
+                <div className="border rounded-lg p-4">
+                  <p className="font-mono text-sm mb-2 font-semibold">POST /api/chat</p>
+                  <p className="text-sm mb-2">AI chat endpoint - sends messages to Groq API with portfolio context</p>
+                  <p className="text-xs text-muted-foreground">• Request: message, history • Response: AI-generated answer • Rate limited</p>
                 </div>
 
-                <div className="border p-4">
-                  <p className="font-mono text-sm mb-2">POST /api/contact</p>
-                  <p className="text-sm text-muted-foreground">Contact form submission handler</p>
+                <div className="border rounded-lg p-4">
+                  <p className="font-mono text-sm mb-2 font-semibold">POST /api/contact</p>
+                  <p className="text-sm mb-2">Contact form submission handler with email notifications</p>
+                  <p className="text-xs text-muted-foreground">• Validates input • Stores in database • Sends confirmation email</p>
                 </div>
 
-                <div className="border p-4">
-                  <p className="font-mono text-sm mb-2">POST /api/security/csp-report</p>
-                  <p className="text-sm text-muted-foreground">CSP violation reporting endpoint</p>
+                <div className="border rounded-lg p-4">
+                  <p className="font-mono text-sm mb-2 font-semibold">POST /api/security/csp-report</p>
+                  <p className="text-sm mb-2">Content Security Policy violation reporting endpoint</p>
+                  <p className="text-xs text-muted-foreground">• Logs CSP violations • Detects XSS attempts • Tracks patterns</p>
                 </div>
 
-                <div className="border p-4">
-                  <p className="font-mono text-sm mb-2">GET /api/security/dashboard</p>
-                  <p className="text-sm text-muted-foreground">Security metrics and events (admin only)</p>
+                <div className="border rounded-lg p-4">
+                  <p className="font-mono text-sm mb-2 font-semibold">GET /api/security/dashboard</p>
+                  <p className="text-sm mb-2">Security metrics and events dashboard data (admin only)</p>
+                  <p className="text-xs text-muted-foreground">• IDS events • Threat scores • Blocked IPs • CSP violations</p>
                 </div>
 
-                <div className="border p-4">
-                  <p className="font-mono text-sm mb-2">GET /api/admin/users</p>
-                  <p className="text-sm text-muted-foreground">User management endpoint (admin only)</p>
+                <div className="border rounded-lg p-4">
+                  <p className="font-mono text-sm mb-2 font-semibold">GET /api/admin/users</p>
+                  <p className="text-sm mb-2">User management endpoint for admin operations (admin only)</p>
+                  <p className="text-xs text-muted-foreground">• List users • Update roles • View activity • RBAC enforcement</p>
                 </div>
 
-                <div className="mt-6">
-                  <h2 className="text-xl font-semibold mb-3">Example API Call</h2>
+                <div className="border rounded-lg p-4 mt-6">
+                  <h2 className="text-lg font-semibold mb-3">Example API Call</h2>
+                  <p className="text-sm text-muted-foreground mb-3">Sample TypeScript code for calling the AI chat endpoint:</p>
                   <pre className="bg-black text-white p-4 rounded overflow-x-auto text-sm">
-{`// Example: AI Chat API
+{`// AI Chat API Example
 const response = await fetch('/api/chat', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     message: 'What are your skills?',
-    history: previousMessages
+    history: previousMessages  // Optional: conversation context
   })
 });
 
-const data = await response.json();
-console.log(data.response); // AI generated answer`}
+if (response.ok) {
+  const data = await response.json();
+  console.log(data.response); // AI generated answer
+} else {
+  console.error('API Error:', response.status);
+}`}
                   </pre>
+                  <p className="text-xs text-muted-foreground mt-3">• All routes return JSON • Errors use standard HTTP status codes</p>
                 </div>
               </div>
             </div>
