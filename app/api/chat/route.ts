@@ -72,14 +72,24 @@ export async function POST(req: NextRequest) {
             '/api/chat',
             `${securityValidation.threat}: ${securityValidation.reason}`
           );
-          throw new Error(securityValidation.reason || 'Invalid message content');
+          // Instead of throwing, return a refusal message
+          return {
+            ...msg,
+            role: 'assistant',
+            content: "Sorry, I can't do that."
+          };
         }
 
         // 🔒 LAYER 2: Original suspicious pattern detection
         const suspiciousCheck = detectSuspiciousPatterns(msg.content);
         if (suspiciousCheck.isSuspicious) {
           logSuspiciousInput(ip, '/api/chat', suspiciousCheck.reason || 'Unknown');
-          throw new Error('Invalid message content');
+          // Instead of throwing, return a refusal message
+          return {
+            ...msg,
+            role: 'assistant',
+            content: "Sorry, I can't do that."
+          };
         }
 
         // 🔒 LAYER 3: Sanitize the message
