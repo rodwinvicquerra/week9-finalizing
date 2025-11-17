@@ -899,49 +899,27 @@ export function isTokenLimitExploitation(message: string): boolean {
  */
 export function validateAiResponse(response: string): { valid: boolean; reason?: string } {
   const lowerResponse = response.toLowerCase();
-  
   // Check if AI is still talking in first person as Rodwin
-  const firstPersonIndicators = ['i am', 'i\'m', 'my ', 'i have', 'i\'ve', 'i work', 'i built'];
+  const firstPersonIndicators = ['i am', "i'm", 'my ', 'i have', "i've", 'i work', 'i built'];
   const hasFirstPerson = firstPersonIndicators.some(indicator => lowerResponse.includes(indicator));
-  
   // Red flags in response
   const responseRedFlags = [
-    'i will now',
-    'changing to',
-    'switching to',
-    'i am now',
-    'i\'m now a',
-    'here is the link',
-    'clicking on',
-    'opening the link',
-    'system prompt',
-    'my instructions are',
-    'i was told to',
-    'i am programmed to',
-    'my rules are'
+    'i will now', 'changing to', 'switching to', 'i am now', "i'm now a", 'here is the link', 'clicking on', 'opening the link', 'system prompt', 'my instructions are', 'i was told to', 'i am programmed to', 'my rules are'
   ];
-  
   const hasRedFlag = responseRedFlags.some(flag => lowerResponse.includes(flag));
-  
   if (hasRedFlag) {
-    return {
-      valid: false,
-      reason: 'Response contains suspicious content'
-    };
+    return { valid: false, reason: 'Response contains suspicious content' };
   }
-  
-  // Warn if response doesn't seem to be about portfolio
-  const portfolioKeywords = ['project', 'skill', 'experience', 'portfolio', 'education', 'rodwin', 'built', 'technology'];
+  // Expanded portfolio keywords for valid topics
+  const portfolioKeywords = [
+    'project', 'projects', 'skill', 'skills', 'experience', 'portfolio', 'education', 'rodwin', 'built', 'technology',
+    'about', 'goals', 'contact', 'documentation', 'docs', 'email', 'phone', 'university', 'school', 'course', 'major', 'profile', 'summary', 'background', 'achievements', 'career', 'work', 'github', 'linkedin', 'resume', 'pdf', 'section', 'feature', 'security', 'mcp', 'admin', 'login', 'register', 'sign in', 'sign up'
+  ];
   const hasPortfolioContext = portfolioKeywords.some(keyword => lowerResponse.includes(keyword));
-  
-  // If response is long but has no portfolio context and no first person, it might be manipulated
-  if (response.length > 200 && !hasPortfolioContext && !hasFirstPerson) {
-    return {
-      valid: false,
-      reason: 'Response seems off-topic'
-    };
+  // Only block if response is long, has no portfolio context, and no first person
+  if (response.length > 400 && !hasPortfolioContext && !hasFirstPerson) {
+    return { valid: false, reason: 'Response seems off-topic' };
   }
-  
   return { valid: true };
 }
 
