@@ -10,6 +10,9 @@ import {
   logApiAbuse,
   getClientIp,
   getSecureHeaders,
+  // 🔒 Ultra-hardened security functions
+  validateMessageSecurity,
+  validateAiResponse,
 } from '@/lib/security';
 
 export async function POST(req: NextRequest) {
@@ -37,24 +40,49 @@ export async function POST(req: NextRequest) {
     const ip = getClientIp(req);
     const { messages } = await req.json();
 
+    // 🔒 FEATURE #15: API Parameter Validation
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
         { error: 'Invalid request format' },
         { status: 400, headers: getSecureHeaders() }
       );
     }
+    
+    // Validate that all messages have only 'user' or 'assistant' roles (prevent 'system' role injection)
+    const hasInvalidRole = messages.some(msg => 
+      msg.role && !['user', 'assistant'].includes(msg.role)
+    );
+    
+    if (hasInvalidRole) {
+      logSuspiciousInput(ip, '/api/chat', 'Attempted to inject system role');
+      return NextResponse.json(
+        { error: 'Invalid message role' },
+        { status: 400, headers: getSecureHeaders() }
+      );
+    }
 
-    // Sanitize and validate user messages
+    // Sanitize and validate user messages with ULTRA-HARDENED SECURITY
     const sanitizedMessages = messages.map((msg) => {
       if (msg.role === 'user' && msg.content) {
-        // Check for suspicious patterns
+        // 🔒 LAYER 1: Ultra-hardened security validation (links, prompt injection)
+        const securityValidation = validateMessageSecurity(msg.content);
+        if (!securityValidation.valid) {
+          logSuspiciousInput(
+            ip,
+            '/api/chat',
+            `${securityValidation.threat}: ${securityValidation.reason}`
+          );
+          throw new Error(securityValidation.reason || 'Invalid message content');
+        }
+
+        // 🔒 LAYER 2: Original suspicious pattern detection
         const suspiciousCheck = detectSuspiciousPatterns(msg.content);
         if (suspiciousCheck.isSuspicious) {
           logSuspiciousInput(ip, '/api/chat', suspiciousCheck.reason || 'Unknown');
           throw new Error('Invalid message content');
         }
 
-        // Sanitize the message
+        // 🔒 LAYER 3: Sanitize the message
         return {
           ...msg,
           content: sanitizeChatMessage(msg.content),
@@ -119,6 +147,17 @@ export async function POST(req: NextRequest) {
           );
         }
 
+        // 🔒 FEATURE #11: Validate AI response before sending
+        const responseValidation = validateAiResponse(assistantMessage);
+        if (!responseValidation.valid) {
+          console.warn('AI response failed validation:', responseValidation.reason);
+          logSuspiciousInput(ip, '/api/chat', `Response validation failed: ${responseValidation.reason}`);
+          // Return safe fallback response
+          return NextResponse.json({
+            message: "I'm here to discuss Rodwin's portfolio and projects only. What would you like to know about his work?"
+          }, { headers: getSecureHeaders() });
+        }
+
         return NextResponse.json({
           message: assistantMessage,
         }, { headers: getSecureHeaders() });
@@ -167,6 +206,17 @@ export async function POST(req: NextRequest) {
           { error: 'No response from AI' },
           { status: 500, headers: getSecureHeaders() }
         );
+      }
+
+      // 🔒 FEATURE #11: Validate AI response before sending
+      const responseValidation = validateAiResponse(assistantMessage);
+      if (!responseValidation.valid) {
+        console.warn('AI response failed validation:', responseValidation.reason);
+        logSuspiciousInput(ip, '/api/chat', `Response validation failed: ${responseValidation.reason}`);
+        // Return safe fallback response
+        return NextResponse.json({
+          message: "I'm here to discuss Rodwin's portfolio and projects only. What would you like to know about his work?"
+        }, { headers: getSecureHeaders() });
       }
 
       return NextResponse.json({

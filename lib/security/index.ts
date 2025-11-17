@@ -16,6 +16,18 @@ export {
   escapeSpecialChars,
   sanitizeJson,
   type ContactFormData,
+  // 🔒 Ultra-hardened chat security
+  containsLinks,
+  isPromptInjection,
+  validateMessageSecurity,
+  type SecurityValidationResult,
+  // 🔒 Advanced security features (#1-15)
+  containsEncodingAttack,
+  containsMultiLanguageInjection,
+  containsNestedInjection,
+  isTokenLimitExploitation,
+  validateAiResponse,
+  containsSteganography,
 } from './sanitizer';
 
 // Security Logging
