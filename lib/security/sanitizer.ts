@@ -911,10 +911,10 @@ export function validateAiResponse(response: string): { valid: boolean; reason?:
     return { valid: false, reason: 'Response contains suspicious content' };
   }
   // Expanded portfolio keywords for valid topics
-  const portfolioKeywords = [
-    'project', 'projects', 'skill', 'skills', 'experience', 'portfolio', 'education', 'rodwin', 'built', 'technology',
-    'about', 'goals', 'contact', 'documentation', 'docs', 'email', 'phone', 'university', 'school', 'course', 'major', 'profile', 'summary', 'background', 'achievements', 'career', 'work', 'github', 'linkedin', 'resume', 'pdf', 'section', 'feature', 'security', 'mcp', 'admin', 'login', 'register', 'sign in', 'sign up'
-  ];
+    const portfolioKeywords = [
+      "about", "skills", "goals", "education", "projects", "contact", "documentation",
+      "portfolio", "experience", "hero", "section", "rodwin", "summary"
+    ];
   const hasPortfolioContext = portfolioKeywords.some(keyword => lowerResponse.includes(keyword));
   // Only block if response is long, has no portfolio context, and no first person
   if (response.length > 400 && !hasPortfolioContext && !hasFirstPerson) {
